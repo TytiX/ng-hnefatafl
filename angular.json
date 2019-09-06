@@ -124,6 +124,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "ng-hnefatafl"
+    }
+  },
+  "defaultProject": "ng-hnefatafl",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
