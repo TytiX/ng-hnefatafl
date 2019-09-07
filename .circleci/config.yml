@@ -23,9 +23,9 @@ jobs:
           command: yarn build
       - store_artifacts:
           path: dist/ng-hnefatafl
-      #- persist_to_workspace:
-      #    root: dist/ng-hnefatafl
-      #    paths: html
+      - persist_to_workspace:
+          root: dist
+          paths: ng-hnefatafl
 
   docs-deploy:
     docker:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: dist/ng-hnefatafl
+          at: dist
       - run:
           name: Install and configure dependencies
           command: |
@@ -43,6 +43,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "dd:6c:cf:fb:2b:ba:29:68:c0:eb:1e:a6:24:06:10:66"
+      - run:
+          name: Build docs
+          command: yarn build
       - run:
           name: Deploy docs to gh-pages branch
           command: yarn deploy
