@@ -21,9 +21,11 @@ jobs:
       - run: 
           name: Build docs
           command: yarn build
-      - persist_to_workspace:
-          root: dist/ng-hnefatafl
-          paths: html
+      - store_artifacts:
+          path: dist/ng-hnefatafl
+      #- persist_to_workspace:
+      #    root: dist/ng-hnefatafl
+      #    paths: html
 
   docs-deploy:
     docker:
@@ -35,7 +37,7 @@ jobs:
       - run:
           name: Install and configure dependencies
           command: |
-            npm install -g --silent gh-pages@2.0.1
+            yarn add -g --silent gh-pages@2.0.1
             git config user.email "ci-build@klukas.net"
             git config user.name "ci-build"
       - add_ssh_keys:
