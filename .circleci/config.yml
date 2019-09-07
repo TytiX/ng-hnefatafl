@@ -23,6 +23,7 @@ jobs:
           command: yarn build
       - persist_to_workspace:
           root: dist/ng-hnefatafl
+          paths: html
 
   docs-deploy:
     docker:
