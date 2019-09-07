@@ -33,11 +33,11 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: docs/_build
+          at: dist/ng-hnefatafl
       - run:
           name: Install and configure dependencies
           command: |
-            yarn global add gh-pages
+            yarn add gh-pages
             git config user.email "ci-build@klukas.net"
             git config user.name "ci-build"
       - add_ssh_keys:
@@ -45,11 +45,13 @@ jobs:
             - "dd:6c:cf:fb:2b:ba:29:68:c0:eb:1e:a6:24:06:10:66"
       - run:
           name: Deploy docs to gh-pages branch
-          command: gh-pages --message "[skip ci] Updates" --dist dist/ng-hnefatafl
+          command: yarn deploy
 
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
       - build
       - docs-deploy
+          requires:
+            - build
