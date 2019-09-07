@@ -7,8 +7,10 @@ export class Case {
 
   pawn;
 
-  constructor(x, y) {
-
+  constructor(x, y, isTower = false) {
+    this.x = x;
+    this.y = y;
+    this.isTower = isTower;
   }
 }
 
@@ -27,17 +29,28 @@ export class Pawn {
 export class HnefataflGame {
 
   size: number;
-  columns: number[] = new Array();
-  cases: Case[] = new Array();
+  cases: Case[][] = new Array();
 
   constructor(size) {
     this.size = size;
+
     for (let i = 0; i < size; i++) {
-      this.columns.push(i + 1);
+
+      this.cases.push(new Array());
+
       for (let j = 0; j < size; j++) {
-        this.cases.push(new Case(i, j));
+        if ( (i === 0 && j === 0)
+        || (i === size - 1 && j === 0)
+        || (i === 0 && j === size - 1)
+        || (i === size - 1 && j === size - 1)
+        || (i === (size - 1) / 2 && j === (size - 1) / 2) ) {
+          this.cases[i].push(new Case(i, j, true));
+        } else {
+          this.cases[i].push(new Case(i, j));
+        }
       }
     }
+    console.log(this.cases);
   }
 
   newGame() {

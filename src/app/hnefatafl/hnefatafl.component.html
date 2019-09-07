@@ -2,8 +2,9 @@
 
 <div id="container">
   <table>
-    <tr *ngFor="let column of game.columns" >
-      <td *ngFor="let row of game.columns">
+    <tr *ngFor="let column of game.cases" >
+      <td *ngFor="let case of column">
+        <ng-template [ngIf]="case.isTower">X</ng-template>
       </td>
     </tr>
   </table>
