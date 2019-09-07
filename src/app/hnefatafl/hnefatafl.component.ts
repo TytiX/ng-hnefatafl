@@ -21,5 +21,8 @@ export class HnefataflComponent implements OnInit {
   dropped(event) {
     console.log(event);
   }
+  entered(event) {
+    console.log(event);
+  }
 
 }
