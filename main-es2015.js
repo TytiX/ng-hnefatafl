@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<p>hnefatafl works!</p>\n\n<div id=\"container\">\n  <table>\n    <tr *ngFor=\"let column of game.cases\" >\n      <td *ngFor=\"let case of column\">\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n      </td>\n    </tr>\n  </table>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"container\">\n  <table>\n    <tr *ngFor=\"let column of game.cases\" >\n      <td *ngFor=\"let case of column\">\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n      </td>\n    </tr>\n  </table>\n</div>\n");
 
 /***/ }),
 
