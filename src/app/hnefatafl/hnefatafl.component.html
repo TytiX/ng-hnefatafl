@@ -1,4 +1,4 @@
-<div id="container">
+<div cdkDrop (cdkDropDropped)="dropped($event)">
   <table>
     <tr *ngFor="let column of game.cases" >
       <td *ngFor="let case of column">
@@ -6,9 +6,11 @@
       </td>
     </tr>
   </table>
+
+
+  <div class="pawn black" cdkDrag></div>
+  <div class="pawn white" cdkDrag></div>
+  <div class="pawn white king" cdkDrag>+</div>
+
 </div>
 
-
-<div class="pawn black" cdkDrag></div>
-<div class="pawn white" cdkDrag></div>
-<div class="pawn white king" cdkDrag>+</div>

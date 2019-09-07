@@ -18,4 +18,8 @@ export class HnefataflComponent implements OnInit {
   ngOnInit() {
   }
 
+  dropped(event) {
+    console.log(event);
+  }
+
 }
