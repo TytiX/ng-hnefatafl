@@ -459,20 +459,32 @@ class HnefataflEngine {
         this.board = board;
     }
     reinit() {
+        let lastId = 1;
         for (const [x, line] of this.board.entries()) {
             for (const [y, caze] of line.entries()) {
                 if (INITIAL_POSITION[x][y] === 1) {
-                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](true);
+                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, true);
+                    lastId++;
                 }
                 else if (INITIAL_POSITION[x][y] === 2) {
-                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](false);
+                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, false);
+                    lastId++;
                 }
                 else if (INITIAL_POSITION[x][y] === 3) {
-                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](false, true);
+                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, false, true);
+                    lastId++;
                 }
             }
         }
         console.log(this.board);
+    }
+    posibleMoves(pawnId) {
+        const cases = new Array();
+        return cases;
+    }
+    move(pawnId, vector) {
+        return true;
+        return false;
     }
 }
 
@@ -544,7 +556,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 
 class Pawn {
-    constructor(isAttacker, isKing = false) {
+    constructor(id, isAttacker, isKing = false) {
+        this.id = id;
         this.isAttacker = isAttacker;
         this.isDefender = !isAttacker;
         this.isKing = isKing;
