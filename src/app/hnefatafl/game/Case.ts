@@ -5,12 +5,14 @@ export class Case {
   y: number;
 
   isTower: boolean;
+  isCornerTower: boolean;
 
   pawn: Pawn;
 
-  constructor(x, y, isTower = false) {
+  constructor(x, y, isTower = false, isCornerTower = false) {
     this.x = x;
     this.y = y;
     this.isTower = isTower;
+    this.isCornerTower = isCornerTower;
   }
 }

@@ -19,8 +19,9 @@ export class HnefataflGame {
         if ( (i === 0 && j === 0)
         || (i === size - 1 && j === 0)
         || (i === 0 && j === size - 1)
-        || (i === size - 1 && j === size - 1)
-        || (i === (size - 1) / 2 && j === (size - 1) / 2) ) {
+        || (i === size - 1 && j === size - 1) ) {
+          this.board[i].push(new Case(i, j, true, true));
+        } else if ( (i === (size - 1) / 2 && j === (size - 1) / 2) ) {
           this.board[i].push(new Case(i, j, true));
         } else {
           this.board[i].push(new Case(i, j));

@@ -1,5 +1,6 @@
 import { Case } from './Case';
 import { Pawn } from './Pawn';
+import { Vector } from './Vector';
 
 // 1 : attacker pawn
 // 2 : defencer pawn
@@ -55,16 +56,16 @@ export class HnefataflEngine {
     this.turn = 0;
     this.player = ATTACKERS;
 
-    // console.log(this.board);
-    // console.log(this.move(0, {x: 0, y: -1}));
-    // console.log(this.board);
+    console.log(this.board);
+    console.log(this.move(0, {x: 0, y: -1}));
+    console.log(this.board);
   }
 
   /**
    * Output the possible cases for a move for the current pawn.
    * @param pawnId the pawn ID
    */
-  posibleMoves(pawnId) {
+  posibleMoves(pawnId): Case[] {
     const pawn = this.pawns[pawnId];
     const cases: Case[] = new Array();
     // find accesible cases on x+
@@ -102,12 +103,8 @@ export class HnefataflEngine {
     return cases;
   }
 
-  move(pawnId, vector) {
+  move(pawnId: number, vector: Vector): boolean {
     const pawn = Object.assign({}, this.pawns[pawnId]);
-
-    console.log(pawn);
-    console.log(this.verifyTurn(pawn));
-    console.log(this.moveIsPossible(pawn, vector));
 
     if (!pawn || !this.verifyTurn(pawn) || !this.moveIsPossible(pawn, vector)) {
       return false;
@@ -122,16 +119,64 @@ export class HnefataflEngine {
 
     this.applyCaptures(pawn);
 
+    this.checkDefenderVictory(pawn);
+
     this.changeTurn();
     return true;
   }
 
-  applyCaptures(pawn: Pawn) {
-    throw new Error("Method not implemented.");
+  private checkDefenderVictory(pawn: Pawn) {
+    if (pawn.isKing && this.board[pawn.x][pawn.y].isCornerTower) {
+      this.triggerVictory(DEFENDERS);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  moveIsPossible(pawn: Pawn, vector: any): boolean {
-    return true;
+  private applyCaptures(pawn: Pawn) {
+    // capture pawns
+    // 0 0 1 2 1 0 horizontal...
+    // agains the wall
+    // 0 0 0 0 1 2
+    // agains a fort
+    // 0 0 0 1 2 X
+
+    this.checkKingCapture(pawn);
+  }
+  checkKingCapture(pawn: Pawn) {
+    // capture king
+    // 0 0 1 0 0
+    // 0 1 3 1 0
+    // 0 0 1 0 0
+    // agains a wall
+    // 0 0 1
+    // 0 1 3
+    // 0 0 1
+    // agains a fort
+    // 0 0 X 0 0
+    // 0 1 3 1 0
+    // 0 0 1 0 0
+    // agains a fort and wall
+    // 0 0 X
+    // 0 1 3
+    // 0 0 1
+    // with a group
+    // 0 0 1 1 0
+    // 0 1 3 2 1
+    // 0 0 1 1 0
+      this.triggerVictory(ATTACKERS);
+  }
+
+  triggerVictory(victory: string) {
+    // throw new Error("Method not implemented.");
+  }
+
+  private moveIsPossible(pawn: Pawn, vector: Vector): boolean {
+    if ( this.posibleMoves(pawn.id).indexOf(this.board[pawn.x + vector.x][pawn.y + vector.y]) > -1 ) {
+      return true;
+    }
+    return false;
   }
 
   private verifyTurn(pawn: Pawn): boolean {
