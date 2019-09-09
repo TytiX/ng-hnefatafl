@@ -1,6 +1,23 @@
 import { Case } from './Case';
 import { HnefataflEngine } from './HnefataflEngine';
 
+
+// 1 : attacker pawn
+// 2 : defencer pawn
+// 3 : king
+export const INITIAL_POSITION = [
+  [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+  [1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
+  [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]];
+
 export class HnefataflGame {
 
   size: number;
@@ -11,17 +28,26 @@ export class HnefataflGame {
   constructor(size) {
     this.size = size;
 
-    for (let i = 0; i < size; i++) {
+    this.cleanBoard();
+
+    this.engine = new HnefataflEngine(this.board);
+    this.engine.reinit();
+  }
+
+  private cleanBoard() {
+    this.board.length = 0;
+
+    for (let i = 0; i < this.size; i++) {
 
       this.board.push(new Array());
 
-      for (let j = 0; j < size; j++) {
+      for (let j = 0; j < this.size; j++) {
         if ( (i === 0 && j === 0)
-        || (i === size - 1 && j === 0)
-        || (i === 0 && j === size - 1)
-        || (i === size - 1 && j === size - 1) ) {
+        || (i === this.size - 1 && j === 0)
+        || (i === 0 && j === this.size - 1)
+        || (i === this.size - 1 && j === this.size - 1) ) {
           this.board[i].push(new Case(i, j, true, true));
-        } else if ( (i === (size - 1) / 2 && j === (size - 1) / 2) ) {
+        } else if ( (i === (this.size - 1) / 2 && j === (this.size - 1) / 2) ) {
           this.board[i].push(new Case(i, j, true));
         } else {
           this.board[i].push(new Case(i, j));
@@ -29,20 +55,22 @@ export class HnefataflGame {
       }
     }
 
-    this.engine = new HnefataflEngine(this.board);
-    this.engine.reinit();
   }
 
   newGame() {
     // restart pawns to start positions
+    this.cleanBoard();
+    this.engine.load(INITIAL_POSITION);
   }
 
   saveGame() {
     // export pawns postions and current turn
   }
 
-  loadGame() {
+  loadGame(positions: number[][]) {
     // import pawns positions and current turn
+    this.cleanBoard();
+    this.engine.load(positions);
   }
 
 }

@@ -1,37 +1,11 @@
-<div>
+<app-hnefatafl-board [board]="game.board"></app-hnefatafl-board>
 
-  <table>
-    <tr *ngFor="let column of game.board" >
-      <td class="case" *ngFor="let case of column" cdkDrop>
-        <ng-template [ngIf]="case.isTower">X</ng-template>
-        <ng-template [ngIf]="case.pawn">
-          <div class="pawn" [ngClass]="{
-              'black': case.pawn.isAttacker,
-              'white': case.pawn.isDefender,
-              'king': case.pawn.isKing
-            }" cdkDrag>
-              <ng-template [ngIf]="case.pawn.isKing">+</ng-template>
-          </div>
-        </ng-template>
-      </td>
-    </tr>
-  </table>
-
-  <!-- <div class="pawn black" cdkDrag (cdkDragDropped)="dropped($event)" (cdkDragEntered)="($event)"></div>
-  <div class="pawn white" cdkDrag></div>
-  <div class="pawn white king" cdkDrag>+</div> -->
-
-</div>
-
-<!-- <div class="drop" cdkDrop>
-  <div class="test" cdkDrag 
-    (cdkDragDropped)="event($event)"
-    (cdkDragEnded)="event($event)"
-    (cdkDragEntered)="event($event)"
-    (cdkDragExited)="event($event)"
-    (cdkDragMoved)="event($event)"
-    (cdkDragReleased)="event($event)"
-    (cdkDragStarted)="event($event)">
-    X
-  </div>
-</div> -->
+<button (click)="loadGame(0)">Initial position</button>
+<button (click)="loadGame(1)">Load position 1</button>
+<button (click)="loadGame(2)">Load position 2</button>
+<button (click)="loadGame(3)">Load position 3</button>
+<button (click)="loadGame(4)">Load position 4</button>
+<button (click)="loadGame(5)">Load position 5</button>
+<button (click)="loadGame(6)">Load position 6</button>
+<button (click)="loadGame(7)">Load position 7</button>
+<button (click)="loadGame(8)">Load position 8</button>

@@ -1,22 +1,7 @@
 import { Case } from './Case';
 import { Pawn } from './Pawn';
 import { Vector } from './Vector';
-
-// 1 : attacker pawn
-// 2 : defencer pawn
-// 3 : king
-const INITIAL_POSITION = [
-[0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-[1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
-[1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-[0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]];
+import { INITIAL_POSITION } from './HnefataflGame';
 
 const ATTACKERS = 'Attackers';
 const DEFENDERS = 'Defenders';
@@ -34,31 +19,31 @@ export class HnefataflEngine {
   }
 
   reinit() {
+    this.load(INITIAL_POSITION);
+
+    this.turn = 0;
+    this.player = ATTACKERS;
+  }
+
+  load(positions: number[][]) {
     let lastId = 0;
     for (const [x, line] of this.board.entries()) {
       for (const [y, caze] of line.entries()) {
-        if (INITIAL_POSITION[x][y] === 1) {
+        if (positions[x][y] === 1) {
           caze.pawn = new Pawn(lastId, x, y, true);
           this.pawns.push(caze.pawn);
           lastId++;
-        } else if (INITIAL_POSITION[x][y] === 2) {
+        } else if (positions[x][y] === 2) {
           caze.pawn = new Pawn(lastId, x, y, false);
           this.pawns.push(caze.pawn);
           lastId++;
-        } else if (INITIAL_POSITION[x][y] === 3) {
+        } else if (positions[x][y] === 3) {
           caze.pawn = new Pawn(lastId, x, y, false, true);
           this.pawns.push(caze.pawn);
           lastId++;
         }
       }
     }
-
-    this.turn = 0;
-    this.player = ATTACKERS;
-
-    console.log(this.board);
-    console.log(this.move(0, {x: 0, y: -1}));
-    console.log(this.board);
   }
 
   /**
@@ -135,16 +120,21 @@ export class HnefataflEngine {
   }
 
   private applyCaptures(pawn: Pawn) {
+    this.applyPawnsCaptures(pawn);
+    this.applyKingCapture(pawn);
+  }
+
+  applyPawnsCaptures(pawn: Pawn) {
     // capture pawns
     // 0 0 1 2 1 0 horizontal...
     // agains the wall
     // 0 0 0 0 1 2
     // agains a fort
     // 0 0 0 1 2 X
-
-    this.checkKingCapture(pawn);
   }
-  checkKingCapture(pawn: Pawn) {
+
+  applyKingCapture(pawn: Pawn) {
+    let kingCaptured = false;
     // capture king
     // 0 0 1 0 0
     // 0 1 3 1 0
@@ -165,11 +155,13 @@ export class HnefataflEngine {
     // 0 0 1 1 0
     // 0 1 3 2 1
     // 0 0 1 1 0
+    if (kingCaptured) {
       this.triggerVictory(ATTACKERS);
+    }
   }
 
   triggerVictory(victory: string) {
-    // throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   private moveIsPossible(pawn: Pawn, vector: Vector): boolean {

@@ -6,11 +6,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HnefataflComponent } from './hnefatafl/hnefatafl.component';
+import { HnefataflBoardComponent } from './hnefatafl/hnefatafl-board/hnefatafl-board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HnefataflComponent
+    HnefataflComponent,
+    HnefataflBoardComponent
   ],
   imports: [
     BrowserModule,

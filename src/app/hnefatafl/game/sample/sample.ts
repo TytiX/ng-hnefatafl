@@ -1,3 +1,6 @@
+// 1 : attacker pawn
+// 2 : defencer pawn
+// 3 : king
 
 export const PAWN_CAPTURE_1 = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
