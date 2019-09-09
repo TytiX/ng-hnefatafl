@@ -26,18 +26,34 @@ export class HnefataflEngine {
   }
 
   reinit() {
+    let lastId = 1;
     for (const [x, line] of this.board.entries()) {
       for (const [y, caze] of line.entries()) {
         if (INITIAL_POSITION[x][y] === 1) {
-          caze.pawn = new Pawn(true);
+          caze.pawn = new Pawn(lastId, true);
+          lastId++;
         } else if (INITIAL_POSITION[x][y] === 2) {
-          caze.pawn = new Pawn(false);
+          caze.pawn = new Pawn(lastId, false);
+          lastId++;
         } else if (INITIAL_POSITION[x][y] === 3) {
-          caze.pawn = new Pawn(false, true);
+          caze.pawn = new Pawn(lastId, false, true);
+          lastId++;
         }
       }
     }
     console.log(this.board);
+  }
+
+  posibleMoves(pawnId) {
+    const cases: Case[] = new Array();
+    return cases;
+  }
+
+  move(pawnId, vector) {
+
+    return true;
+
+    return false;
   }
 
 }
