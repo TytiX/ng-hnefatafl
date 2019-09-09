@@ -1,22 +1,6 @@
 import { Case } from './Case';
 import { HnefataflEngine } from './HnefataflEngine';
-
-
-// 1 : attacker pawn
-// 2 : defencer pawn
-// 3 : king
-export const INITIAL_POSITION = [
-  [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-  [1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
-  [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]];
+import { INITIAL_POSITION } from './Constants';
 
 export class HnefataflGame {
 

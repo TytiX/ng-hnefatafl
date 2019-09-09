@@ -1,7 +1,7 @@
 import { Case } from './Case';
 import { Pawn } from './Pawn';
 import { Vector } from './Vector';
-import { INITIAL_POSITION } from './HnefataflGame';
+import { INITIAL_POSITION } from './Constants';
 
 const ATTACKERS = 'Attackers';
 const DEFENDERS = 'Defenders';
