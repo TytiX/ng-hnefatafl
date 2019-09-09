@@ -414,10 +414,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 
 class Case {
-    constructor(x, y, isTower = false) {
+    constructor(x, y, isTower = false, isCornerTower = false) {
         this.x = x;
         this.y = y;
         this.isTower = isTower;
+        this.isCornerTower = isCornerTower;
     }
 }
 
@@ -484,9 +485,9 @@ class HnefataflEngine {
         }
         this.turn = 0;
         this.player = ATTACKERS;
-        // console.log(this.board);
-        // console.log(this.move(0, {x: 0, y: -1}));
-        // console.log(this.board);
+        console.log(this.board);
+        console.log(this.move(0, { x: 0, y: -1 }));
+        console.log(this.board);
     }
     /**
      * Output the possible cases for a move for the current pawn.
@@ -535,9 +536,6 @@ class HnefataflEngine {
     }
     move(pawnId, vector) {
         const pawn = Object.assign({}, this.pawns[pawnId]);
-        console.log(pawn);
-        console.log(this.verifyTurn(pawn));
-        console.log(this.moveIsPossible(pawn, vector));
         if (!pawn || !this.verifyTurn(pawn) || !this.moveIsPossible(pawn, vector)) {
             return false;
         }
@@ -546,14 +544,59 @@ class HnefataflEngine {
         pawn.y = pawn.y + vector.y;
         this.board[pawn.x][pawn.y].pawn = pawn;
         this.applyCaptures(pawn);
+        this.checkDefenderVictory(pawn);
         this.changeTurn();
         return true;
     }
+    checkDefenderVictory(pawn) {
+        if (pawn.isKing && this.board[pawn.x][pawn.y].isCornerTower) {
+            this.triggerVictory(DEFENDERS);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     applyCaptures(pawn) {
-        throw new Error("Method not implemented.");
+        // capture pawns
+        // 0 0 1 2 1 0 horizontal...
+        // agains the wall
+        // 0 0 0 0 1 2
+        // agains a fort
+        // 0 0 0 1 2 X
+        this.checkKingCapture(pawn);
+    }
+    checkKingCapture(pawn) {
+        // capture king
+        // 0 0 1 0 0
+        // 0 1 3 1 0
+        // 0 0 1 0 0
+        // agains a wall
+        // 0 0 1
+        // 0 1 3
+        // 0 0 1
+        // agains a fort
+        // 0 0 X 0 0
+        // 0 1 3 1 0
+        // 0 0 1 0 0
+        // agains a fort and wall
+        // 0 0 X
+        // 0 1 3
+        // 0 0 1
+        // with a group
+        // 0 0 1 1 0
+        // 0 1 3 2 1
+        // 0 0 1 1 0
+        this.triggerVictory(ATTACKERS);
+    }
+    triggerVictory(victory) {
+        // throw new Error("Method not implemented.");
     }
     moveIsPossible(pawn, vector) {
-        return true;
+        if (this.posibleMoves(pawn.id).indexOf(this.board[pawn.x + vector.x][pawn.y + vector.y]) > -1) {
+            return true;
+        }
+        return false;
     }
     verifyTurn(pawn) {
         if (this.player === ATTACKERS && pawn.isAttacker) {
@@ -606,8 +649,10 @@ class HnefataflGame {
                 if ((i === 0 && j === 0)
                     || (i === size - 1 && j === 0)
                     || (i === 0 && j === size - 1)
-                    || (i === size - 1 && j === size - 1)
-                    || (i === (size - 1) / 2 && j === (size - 1) / 2)) {
+                    || (i === size - 1 && j === size - 1)) {
+                    this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i, j, true, true));
+                }
+                else if ((i === (size - 1) / 2 && j === (size - 1) / 2)) {
                     this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i, j, true));
                 }
                 else {
