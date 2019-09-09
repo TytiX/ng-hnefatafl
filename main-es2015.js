@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table>\n    <tr *ngFor=\"let column of game.cases\" >\n      <td class=\"case\" *ngFor=\"let case of column\" cdkDrop>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n      </td>\n    </tr>\n  </table>\n\n  <div class=\"pawn black\" cdkDrag (cdkDragDropped)=\"dropped($event)\" (cdkDragEntered)=\"($event)\"></div>\n  <div class=\"pawn white\" cdkDrag></div>\n  <div class=\"pawn white king\" cdkDrag>+</div>\n\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table>\n    <tr *ngFor=\"let column of game.board\" >\n      <td class=\"case\" *ngFor=\"let case of column\" cdkDrop>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n      </td>\n    </tr>\n  </table>\n\n  <div class=\"pawn black\" cdkDrag (cdkDragDropped)=\"dropped($event)\" (cdkDragEntered)=\"($event)\"></div>\n  <div class=\"pawn white\" cdkDrag></div>\n  <div class=\"pawn white king\" cdkDrag>+</div>\n\n</div>\n\n\n<div class=\"drop\" cdkDrop>\n  <div class=\"test\" cdkDrag \n    (cdkDragDropped)=\"event($event)\"\n    (cdkDragEnded)=\"event($event)\"\n    (cdkDragEntered)=\"event($event)\"\n    (cdkDragExited)=\"event($event)\"\n    (cdkDragMoved)=\"event($event)\"\n    (cdkDragReleased)=\"event($event)\"\n    (cdkDragStarted)=\"event($event)\">\n    X\n  </div>\n</div>");
 
 /***/ }),
 
@@ -401,18 +401,16 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
-/***/ "./src/app/hnefatafl/game/HnefataflGame.ts":
-/*!*************************************************!*\
-  !*** ./src/app/hnefatafl/game/HnefataflGame.ts ***!
-  \*************************************************/
-/*! exports provided: Case, Pawn, HnefataflGame */
+/***/ "./src/app/hnefatafl/game/Case.ts":
+/*!****************************************!*\
+  !*** ./src/app/hnefatafl/game/Case.ts ***!
+  \****************************************/
+/*! exports provided: Case */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Case", function() { return Case; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pawn", function() { return Pawn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflGame", function() { return HnefataflGame; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 
 class Case {
@@ -422,33 +420,43 @@ class Case {
         this.isTower = isTower;
     }
 }
-class Pawn {
-    constructor(isAttacker, isKing = false) {
-        this.isAttacker = isAttacker;
-        this.isDefender = !isAttacker;
-        this.isKing = isKing;
-    }
-}
+
+
+/***/ }),
+
+/***/ "./src/app/hnefatafl/game/HnefataflGame.ts":
+/*!*************************************************!*\
+  !*** ./src/app/hnefatafl/game/HnefataflGame.ts ***!
+  \*************************************************/
+/*! exports provided: HnefataflGame */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflGame", function() { return HnefataflGame; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Case__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Case */ "./src/app/hnefatafl/game/Case.ts");
+
+
 class HnefataflGame {
     constructor(size) {
-        this.cases = new Array();
+        this.board = new Array();
         this.size = size;
         for (let i = 0; i < size; i++) {
-            this.cases.push(new Array());
+            this.board.push(new Array());
             for (let j = 0; j < size; j++) {
                 if ((i === 0 && j === 0)
                     || (i === size - 1 && j === 0)
                     || (i === 0 && j === size - 1)
                     || (i === size - 1 && j === size - 1)
                     || (i === (size - 1) / 2 && j === (size - 1) / 2)) {
-                    this.cases[i].push(new Case(i, j, true));
+                    this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i, j, true));
                 }
                 else {
-                    this.cases[i].push(new Case(i, j));
+                    this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i, j));
                 }
             }
         }
-        console.log(this.cases);
     }
     newGame() {
         // restart pawns to start positions
@@ -473,7 +481,7 @@ class HnefataflGame {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("table, td, th {\n  border: 1px solid #474747;\n  text-align: center;\n}\n\ntable {\n  border-collapse: collapse;\n  width: 550px;\n  font-size: 24px;\n  table-layout: fixed;\n}\n\nth, td {\n  height: 50px;\n}\n\n.pawn {\n  height: 40px;\n  width: 40px;\n  border-radius: 25px;\n  border: 2px solid #0d0f0a;\n}\n\n.white {\n  background-color: #f7f7f7;\n}\n\n.black {\n  background-color: #0d0f0a;\n}\n\n.king {\n  font-size: 25px;\n  font-weight: bolder;\n  text-align: center;\n}\n\n.case {\n  position: relative;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NpcmNsZWNpL3Byb2plY3Qvc3JjL2FwcC9obmVmYXRhZmwvaG5lZmF0YWZsLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9obmVmYXRhZmwvaG5lZmF0YWZsLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7RUFDQSxrQkFBQTtBQ0NKOztBREVBO0VBQ0kseUJBQUE7RUFDQSxZQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0FDQ0o7O0FERUE7RUFDSSxZQUFBO0FDQ0o7O0FERUE7RUFDSSxZQUFBO0VBQ0EsV0FBQTtFQUNBLG1CQUFBO0VBQ0EseUJBQUE7QUNDSjs7QURFQTtFQUNJLHlCQUFBO0FDQ0o7O0FERUE7RUFDSSx5QkFBQTtBQ0NKOztBREVBO0VBQ0ksZUFBQTtFQUNBLG1CQUFBO0VBQ0Esa0JBQUE7QUNDSjs7QURFQTtFQUNJLGtCQUFBO0FDQ0oiLCJmaWxlIjoic3JjL2FwcC9obmVmYXRhZmwvaG5lZmF0YWZsLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsidGFibGUsIHRkLCB0aCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiKDcxLCA3MSwgNzEpO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxudGFibGUge1xuICAgIGJvcmRlci1jb2xsYXBzZTogY29sbGFwc2U7XG4gICAgd2lkdGg6IDU1MHB4O1xuICAgIGZvbnQtc2l6ZTogMjRweDtcbiAgICB0YWJsZS1sYXlvdXQ6IGZpeGVkO1xufVxuXG50aCwgdGQge1xuICAgIGhlaWdodDogNTBweDtcbn1cblxuLnBhd24ge1xuICAgIGhlaWdodDogNDBweDtcbiAgICB3aWR0aDogNDBweDtcbiAgICBib3JkZXItcmFkaXVzOiAyNXB4O1xuICAgIGJvcmRlcjogMnB4IHNvbGlkIHJnYigxMywgMTUsIDEwKTtcbn1cblxuLndoaXRlIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjQ3LCAyNDcsIDI0Nyk7XG59XG5cbi5ibGFjayB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDEzLCAxNSwgMTApO1xufVxuXG4ua2luZyB7XG4gICAgZm9udC1zaXplOiAyNXB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkZXI7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uY2FzZSB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xufVxuIiwidGFibGUsIHRkLCB0aCB7XG4gIGJvcmRlcjogMXB4IHNvbGlkICM0NzQ3NDc7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxudGFibGUge1xuICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlO1xuICB3aWR0aDogNTUwcHg7XG4gIGZvbnQtc2l6ZTogMjRweDtcbiAgdGFibGUtbGF5b3V0OiBmaXhlZDtcbn1cblxudGgsIHRkIHtcbiAgaGVpZ2h0OiA1MHB4O1xufVxuXG4ucGF3biB7XG4gIGhlaWdodDogNDBweDtcbiAgd2lkdGg6IDQwcHg7XG4gIGJvcmRlci1yYWRpdXM6IDI1cHg7XG4gIGJvcmRlcjogMnB4IHNvbGlkICMwZDBmMGE7XG59XG5cbi53aGl0ZSB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmN2Y3Zjc7XG59XG5cbi5ibGFjayB7XG4gIGJhY2tncm91bmQtY29sb3I6ICMwZDBmMGE7XG59XG5cbi5raW5nIHtcbiAgZm9udC1zaXplOiAyNXB4O1xuICBmb250LXdlaWdodDogYm9sZGVyO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5jYXNlIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("table, td, th {\n  border: 1px solid #474747;\n  text-align: center;\n}\n\ntable {\n  border-collapse: collapse;\n  width: 550px;\n  font-size: 24px;\n  table-layout: fixed;\n}\n\nth, td {\n  height: 50px;\n}\n\n.pawn {\n  height: 40px;\n  width: 40px;\n  border-radius: 25px;\n  border: 2px solid #0d0f0a;\n}\n\n.white {\n  background-color: #f7f7f7;\n}\n\n.black {\n  background-color: #0d0f0a;\n}\n\n.king {\n  font-size: 25px;\n  font-weight: bolder;\n  text-align: center;\n}\n\n.case {\n  position: relative;\n}\n\n.drop {\n  border: 1px solid #000;\n}\n\n.test {\n  height: 20px;\n  width: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NpcmNsZWNpL3Byb2plY3Qvc3JjL2FwcC9obmVmYXRhZmwvaG5lZmF0YWZsLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9obmVmYXRhZmwvaG5lZmF0YWZsLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0kseUJBQUE7RUFDQSxrQkFBQTtBQ0NKOztBREVBO0VBQ0kseUJBQUE7RUFDQSxZQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0FDQ0o7O0FERUE7RUFDSSxZQUFBO0FDQ0o7O0FERUE7RUFDSSxZQUFBO0VBQ0EsV0FBQTtFQUNBLG1CQUFBO0VBQ0EseUJBQUE7QUNDSjs7QURFQTtFQUNJLHlCQUFBO0FDQ0o7O0FERUE7RUFDSSx5QkFBQTtBQ0NKOztBREVBO0VBQ0ksZUFBQTtFQUNBLG1CQUFBO0VBQ0Esa0JBQUE7QUNDSjs7QURFQTtFQUNJLGtCQUFBO0FDQ0o7O0FERUE7RUFDSSxzQkFBQTtBQ0NKOztBREVBO0VBQ0ksWUFBQTtFQUNBLFdBQUE7QUNDSiIsImZpbGUiOiJzcmMvYXBwL2huZWZhdGFmbC9obmVmYXRhZmwuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJ0YWJsZSwgdGQsIHRoIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCByZ2IoNzEsIDcxLCA3MSk7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG50YWJsZSB7XG4gICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcbiAgICB3aWR0aDogNTUwcHg7XG4gICAgZm9udC1zaXplOiAyNHB4O1xuICAgIHRhYmxlLWxheW91dDogZml4ZWQ7XG59XG5cbnRoLCB0ZCB7XG4gICAgaGVpZ2h0OiA1MHB4O1xufVxuXG4ucGF3biB7XG4gICAgaGVpZ2h0OiA0MHB4O1xuICAgIHdpZHRoOiA0MHB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDI1cHg7XG4gICAgYm9yZGVyOiAycHggc29saWQgcmdiKDEzLCAxNSwgMTApO1xufVxuXG4ud2hpdGUge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyNDcsIDI0NywgMjQ3KTtcbn1cblxuLmJsYWNrIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMTMsIDE1LCAxMCk7XG59XG5cbi5raW5nIHtcbiAgICBmb250LXNpemU6IDI1cHg7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGRlcjtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5jYXNlIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG59XG5cbi5kcm9wIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjMDAwO1xufVxuXG4udGVzdCB7XG4gICAgaGVpZ2h0OiAyMHB4O1xuICAgIHdpZHRoOiAyMHB4O1xufVxuIiwidGFibGUsIHRkLCB0aCB7XG4gIGJvcmRlcjogMXB4IHNvbGlkICM0NzQ3NDc7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxudGFibGUge1xuICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlO1xuICB3aWR0aDogNTUwcHg7XG4gIGZvbnQtc2l6ZTogMjRweDtcbiAgdGFibGUtbGF5b3V0OiBmaXhlZDtcbn1cblxudGgsIHRkIHtcbiAgaGVpZ2h0OiA1MHB4O1xufVxuXG4ucGF3biB7XG4gIGhlaWdodDogNDBweDtcbiAgd2lkdGg6IDQwcHg7XG4gIGJvcmRlci1yYWRpdXM6IDI1cHg7XG4gIGJvcmRlcjogMnB4IHNvbGlkICMwZDBmMGE7XG59XG5cbi53aGl0ZSB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmN2Y3Zjc7XG59XG5cbi5ibGFjayB7XG4gIGJhY2tncm91bmQtY29sb3I6ICMwZDBmMGE7XG59XG5cbi5raW5nIHtcbiAgZm9udC1zaXplOiAyNXB4O1xuICBmb250LXdlaWdodDogYm9sZGVyO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5jYXNlIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xufVxuXG4uZHJvcCB7XG4gIGJvcmRlcjogMXB4IHNvbGlkICMwMDA7XG59XG5cbi50ZXN0IHtcbiAgaGVpZ2h0OiAyMHB4O1xuICB3aWR0aDogMjBweDtcbn0iXX0= */");
 
 /***/ }),
 
@@ -503,6 +511,9 @@ let HnefataflComponent = class HnefataflComponent {
         console.log(event);
     }
     entered(event) {
+        console.log(event);
+    }
+    event(event) {
         console.log(event);
     }
 };
