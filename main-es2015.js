@@ -441,6 +441,38 @@ class Case {
 
 /***/ }),
 
+/***/ "./src/app/hnefatafl/game/Constants.ts":
+/*!*********************************************!*\
+  !*** ./src/app/hnefatafl/game/Constants.ts ***!
+  \*********************************************/
+/*! exports provided: INITIAL_POSITION */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INITIAL_POSITION", function() { return INITIAL_POSITION; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+// 1 : attacker pawn
+// 2 : defencer pawn
+// 3 : king
+const INITIAL_POSITION = [
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+    [1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
+    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]
+];
+
+
+/***/ }),
+
 /***/ "./src/app/hnefatafl/game/HnefataflEngine.ts":
 /*!***************************************************!*\
   !*** ./src/app/hnefatafl/game/HnefataflEngine.ts ***!
@@ -453,7 +485,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflEngine", function() { return HnefataflEngine; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _Pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pawn */ "./src/app/hnefatafl/game/Pawn.ts");
-/* harmony import */ var _HnefataflGame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HnefataflGame */ "./src/app/hnefatafl/game/HnefataflGame.ts");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Constants */ "./src/app/hnefatafl/game/Constants.ts");
 
 
 
@@ -465,7 +497,7 @@ class HnefataflEngine {
         this.pawns = new Array();
     }
     reinit() {
-        this.load(_HnefataflGame__WEBPACK_IMPORTED_MODULE_2__["INITIAL_POSITION"]);
+        this.load(_Constants__WEBPACK_IMPORTED_MODULE_2__["INITIAL_POSITION"]);
         this.turn = 0;
         this.player = ATTACKERS;
     }
@@ -635,35 +667,20 @@ class HnefataflEngine {
 /*!*************************************************!*\
   !*** ./src/app/hnefatafl/game/HnefataflGame.ts ***!
   \*************************************************/
-/*! exports provided: INITIAL_POSITION, HnefataflGame */
+/*! exports provided: HnefataflGame */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INITIAL_POSITION", function() { return INITIAL_POSITION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflGame", function() { return HnefataflGame; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _Case__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Case */ "./src/app/hnefatafl/game/Case.ts");
 /* harmony import */ var _HnefataflEngine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HnefataflEngine */ "./src/app/hnefatafl/game/HnefataflEngine.ts");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Constants */ "./src/app/hnefatafl/game/Constants.ts");
 
 
 
-// 1 : attacker pawn
-// 2 : defencer pawn
-// 3 : king
-const INITIAL_POSITION = [
-    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-    [1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
-    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]
-];
+
 class HnefataflGame {
     constructor(size) {
         this.board = new Array();
@@ -695,7 +712,7 @@ class HnefataflGame {
     newGame() {
         // restart pawns to start positions
         this.cleanBoard();
-        this.engine.load(INITIAL_POSITION);
+        this.engine.load(_Constants__WEBPACK_IMPORTED_MODULE_3__["INITIAL_POSITION"]);
     }
     saveGame() {
         // export pawns postions and current turn
