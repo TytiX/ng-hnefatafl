@@ -36,6 +36,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.html":
+/*!****************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.html ***!
+  \****************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table>\n    <tr *ngFor=\"let column of board\" >\n      <td class=\"case\" *ngFor=\"let case of column\" cdkDrop>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n        <ng-template [ngIf]=\"case.pawn\">\n          <div class=\"pawn\" [ngClass]=\"{\n              'black': case.pawn.isAttacker,\n              'white': case.pawn.isDefender,\n              'king': case.pawn.isKing\n            }\" cdkDrag>\n              <ng-template [ngIf]=\"case.pawn.isKing\">+</ng-template>\n          </div>\n        </ng-template>\n      </td>\n    </tr>\n  </table>\n\n  <!-- <div class=\"pawn black\" cdkDrag (cdkDragDropped)=\"dropped($event)\" (cdkDragEntered)=\"($event)\"></div>\n  <div class=\"pawn white\" cdkDrag></div>\n  <div class=\"pawn white king\" cdkDrag>+</div> -->\n\n</div>\n\n<!-- <div class=\"drop\" cdkDrop>\n  <div class=\"test\" cdkDrag \n    (cdkDragDropped)=\"event($event)\"\n    (cdkDragEnded)=\"event($event)\"\n    (cdkDragEntered)=\"event($event)\"\n    (cdkDragExited)=\"event($event)\"\n    (cdkDragMoved)=\"event($event)\"\n    (cdkDragReleased)=\"event($event)\"\n    (cdkDragStarted)=\"event($event)\">\n    X\n  </div>\n</div> -->\n");
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/hnefatafl/hnefatafl.component.html":
 /*!******************************************************************************************!*\
   !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/hnefatafl/hnefatafl.component.html ***!
@@ -45,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table>\n    <tr *ngFor=\"let column of game.board\" >\n      <td class=\"case\" *ngFor=\"let case of column\" cdkDrop>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n        <ng-template [ngIf]=\"case.pawn\">\n          <div class=\"pawn\" [ngClass]=\"{\n              'black': case.pawn.isAttacker,\n              'white': case.pawn.isDefender,\n              'king': case.pawn.isKing\n            }\" cdkDrag>\n              <ng-template [ngIf]=\"case.pawn.isKing\">+</ng-template>\n          </div>\n        </ng-template>\n      </td>\n    </tr>\n  </table>\n\n  <!-- <div class=\"pawn black\" cdkDrag (cdkDragDropped)=\"dropped($event)\" (cdkDragEntered)=\"($event)\"></div>\n  <div class=\"pawn white\" cdkDrag></div>\n  <div class=\"pawn white king\" cdkDrag>+</div> -->\n\n</div>\n\n<!-- <div class=\"drop\" cdkDrop>\n  <div class=\"test\" cdkDrag \n    (cdkDragDropped)=\"event($event)\"\n    (cdkDragEnded)=\"event($event)\"\n    (cdkDragEntered)=\"event($event)\"\n    (cdkDragExited)=\"event($event)\"\n    (cdkDragMoved)=\"event($event)\"\n    (cdkDragReleased)=\"event($event)\"\n    (cdkDragStarted)=\"event($event)\">\n    X\n  </div>\n</div> -->\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<app-hnefatafl-board [board]=\"game.board\"></app-hnefatafl-board>\n\n<button (click)=\"loadGame(0)\">Initial position</button>\n<button (click)=\"loadGame(1)\">Load position 1</button>\n<button (click)=\"loadGame(2)\">Load position 2</button>\n<button (click)=\"loadGame(3)\">Load position 3</button>\n<button (click)=\"loadGame(4)\">Load position 4</button>\n<button (click)=\"loadGame(5)\">Load position 5</button>\n<button (click)=\"loadGame(6)\">Load position 6</button>\n<button (click)=\"loadGame(7)\">Load position 7</button>\n<button (click)=\"loadGame(8)\">Load position 8</button>\n");
 
 /***/ }),
 
@@ -370,6 +383,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _hnefatafl_hnefatafl_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hnefatafl/hnefatafl.component */ "./src/app/hnefatafl/hnefatafl.component.ts");
+/* harmony import */ var _hnefatafl_hnefatafl_board_hnefatafl_board_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./hnefatafl/hnefatafl-board/hnefatafl-board.component */ "./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.ts");
+
 
 
 
@@ -384,7 +399,8 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
         declarations: [
             _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-            _hnefatafl_hnefatafl_component__WEBPACK_IMPORTED_MODULE_7__["HnefataflComponent"]
+            _hnefatafl_hnefatafl_component__WEBPACK_IMPORTED_MODULE_7__["HnefataflComponent"],
+            _hnefatafl_hnefatafl_board_hnefatafl_board_component__WEBPACK_IMPORTED_MODULE_8__["HnefataflBoardComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -437,24 +453,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflEngine", function() { return HnefataflEngine; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _Pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pawn */ "./src/app/hnefatafl/game/Pawn.ts");
+/* harmony import */ var _HnefataflGame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HnefataflGame */ "./src/app/hnefatafl/game/HnefataflGame.ts");
 
 
-// 1 : attacker pawn
-// 2 : defencer pawn
-// 3 : king
-const INITIAL_POSITION = [
-    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-    [1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
-    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]
-];
+
 const ATTACKERS = 'Attackers';
 const DEFENDERS = 'Defenders';
 class HnefataflEngine {
@@ -463,31 +465,31 @@ class HnefataflEngine {
         this.pawns = new Array();
     }
     reinit() {
+        this.load(_HnefataflGame__WEBPACK_IMPORTED_MODULE_2__["INITIAL_POSITION"]);
+        this.turn = 0;
+        this.player = ATTACKERS;
+    }
+    load(positions) {
         let lastId = 0;
         for (const [x, line] of this.board.entries()) {
             for (const [y, caze] of line.entries()) {
-                if (INITIAL_POSITION[x][y] === 1) {
+                if (positions[x][y] === 1) {
                     caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, x, y, true);
                     this.pawns.push(caze.pawn);
                     lastId++;
                 }
-                else if (INITIAL_POSITION[x][y] === 2) {
+                else if (positions[x][y] === 2) {
                     caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, x, y, false);
                     this.pawns.push(caze.pawn);
                     lastId++;
                 }
-                else if (INITIAL_POSITION[x][y] === 3) {
+                else if (positions[x][y] === 3) {
                     caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, x, y, false, true);
                     this.pawns.push(caze.pawn);
                     lastId++;
                 }
             }
         }
-        this.turn = 0;
-        this.player = ATTACKERS;
-        console.log(this.board);
-        console.log(this.move(0, { x: 0, y: -1 }));
-        console.log(this.board);
     }
     /**
      * Output the possible cases for a move for the current pawn.
@@ -558,15 +560,19 @@ class HnefataflEngine {
         }
     }
     applyCaptures(pawn) {
+        this.applyPawnsCaptures(pawn);
+        this.applyKingCapture(pawn);
+    }
+    applyPawnsCaptures(pawn) {
         // capture pawns
         // 0 0 1 2 1 0 horizontal...
         // agains the wall
         // 0 0 0 0 1 2
         // agains a fort
         // 0 0 0 1 2 X
-        this.checkKingCapture(pawn);
     }
-    checkKingCapture(pawn) {
+    applyKingCapture(pawn) {
+        let kingCaptured = false;
         // capture king
         // 0 0 1 0 0
         // 0 1 3 1 0
@@ -587,10 +593,12 @@ class HnefataflEngine {
         // 0 0 1 1 0
         // 0 1 3 2 1
         // 0 0 1 1 0
-        this.triggerVictory(ATTACKERS);
+        if (kingCaptured) {
+            this.triggerVictory(ATTACKERS);
+        }
     }
     triggerVictory(victory) {
-        // throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     moveIsPossible(pawn, vector) {
         if (this.posibleMoves(pawn.id).indexOf(this.board[pawn.x + vector.x][pawn.y + vector.y]) > -1) {
@@ -627,11 +635,12 @@ class HnefataflEngine {
 /*!*************************************************!*\
   !*** ./src/app/hnefatafl/game/HnefataflGame.ts ***!
   \*************************************************/
-/*! exports provided: HnefataflGame */
+/*! exports provided: INITIAL_POSITION, HnefataflGame */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INITIAL_POSITION", function() { return INITIAL_POSITION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflGame", function() { return HnefataflGame; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _Case__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Case */ "./src/app/hnefatafl/game/Case.ts");
@@ -639,20 +648,42 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// 1 : attacker pawn
+// 2 : defencer pawn
+// 3 : king
+const INITIAL_POSITION = [
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+    [1, 1, 0, 2, 2, 3, 2, 2, 0, 1, 1],
+    [1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]
+];
 class HnefataflGame {
     constructor(size) {
         this.board = new Array();
         this.size = size;
-        for (let i = 0; i < size; i++) {
+        this.cleanBoard();
+        this.engine = new _HnefataflEngine__WEBPACK_IMPORTED_MODULE_2__["HnefataflEngine"](this.board);
+        this.engine.reinit();
+    }
+    cleanBoard() {
+        this.board.length = 0;
+        for (let i = 0; i < this.size; i++) {
             this.board.push(new Array());
-            for (let j = 0; j < size; j++) {
+            for (let j = 0; j < this.size; j++) {
                 if ((i === 0 && j === 0)
-                    || (i === size - 1 && j === 0)
-                    || (i === 0 && j === size - 1)
-                    || (i === size - 1 && j === size - 1)) {
+                    || (i === this.size - 1 && j === 0)
+                    || (i === 0 && j === this.size - 1)
+                    || (i === this.size - 1 && j === this.size - 1)) {
                     this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i, j, true, true));
                 }
-                else if ((i === (size - 1) / 2 && j === (size - 1) / 2)) {
+                else if ((i === (this.size - 1) / 2 && j === (this.size - 1) / 2)) {
                     this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i, j, true));
                 }
                 else {
@@ -660,17 +691,19 @@ class HnefataflGame {
                 }
             }
         }
-        this.engine = new _HnefataflEngine__WEBPACK_IMPORTED_MODULE_2__["HnefataflEngine"](this.board);
-        this.engine.reinit();
     }
     newGame() {
         // restart pawns to start positions
+        this.cleanBoard();
+        this.engine.load(INITIAL_POSITION);
     }
     saveGame() {
         // export pawns postions and current turn
     }
-    loadGame() {
+    loadGame(positions) {
         // import pawns positions and current turn
+        this.cleanBoard();
+        this.engine.load(positions);
     }
 }
 
@@ -703,6 +736,183 @@ class Pawn {
 
 /***/ }),
 
+/***/ "./src/app/hnefatafl/game/sample/sample.ts":
+/*!*************************************************!*\
+  !*** ./src/app/hnefatafl/game/sample/sample.ts ***!
+  \*************************************************/
+/*! exports provided: PAWN_CAPTURE_1, PAWN_CAPTURE_2, PAWN_CAPTURE_3, KING_CAPTURE_1, KING_CAPTURE_2, KING_CAPTURE_3, KING_CAPTURE_4, KING_CAPTURE_5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAWN_CAPTURE_1", function() { return PAWN_CAPTURE_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAWN_CAPTURE_2", function() { return PAWN_CAPTURE_2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAWN_CAPTURE_3", function() { return PAWN_CAPTURE_3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KING_CAPTURE_1", function() { return KING_CAPTURE_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KING_CAPTURE_2", function() { return KING_CAPTURE_2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KING_CAPTURE_3", function() { return KING_CAPTURE_3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KING_CAPTURE_4", function() { return KING_CAPTURE_4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KING_CAPTURE_5", function() { return KING_CAPTURE_5; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+// 1 : attacker pawn
+// 2 : defencer pawn
+// 3 : king
+
+const PAWN_CAPTURE_1 = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+const PAWN_CAPTURE_2 = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+const PAWN_CAPTURE_3 = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+const KING_CAPTURE_1 = [
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 3, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+const KING_CAPTURE_2 = [
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+const KING_CAPTURE_3 = [
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+];
+const KING_CAPTURE_4 = [
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+const KING_CAPTURE_5 = [
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 3, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+];
+
+
+/***/ }),
+
+/***/ "./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.scss":
+/*!**************************************************************************!*\
+  !*** ./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.scss ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("table, td, th {\n  border: 1px solid #474747;\n  text-align: center;\n}\n\ntable {\n  border-collapse: collapse;\n  width: 550px;\n  font-size: 24px;\n  table-layout: fixed;\n}\n\nth, td {\n  height: 50px;\n}\n\n.pawn {\n  height: 40px;\n  width: 40px;\n  top: 4px;\n  position: absolute;\n  border-radius: 25px;\n  border: 2px solid #0d0f0a;\n}\n\n.white {\n  background-color: #f7f7f7;\n}\n\n.black {\n  background-color: #0d0f0a;\n}\n\n.king {\n  font-size: 25px;\n  font-weight: bolder;\n  text-align: center;\n}\n\n.case {\n  position: relative;\n}\n\n.drop {\n  border: 1px solid #000;\n}\n\n.test {\n  height: 20px;\n  width: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NpcmNsZWNpL3Byb2plY3Qvc3JjL2FwcC9obmVmYXRhZmwvaG5lZmF0YWZsLWJvYXJkL2huZWZhdGFmbC1ib2FyZC5jb21wb25lbnQuc2NzcyIsInNyYy9hcHAvaG5lZmF0YWZsL2huZWZhdGFmbC1ib2FyZC9obmVmYXRhZmwtYm9hcmQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSx5QkFBQTtFQUNBLGtCQUFBO0FDQ0o7O0FERUE7RUFDSSx5QkFBQTtFQUNBLFlBQUE7RUFDQSxlQUFBO0VBQ0EsbUJBQUE7QUNDSjs7QURFQTtFQUNJLFlBQUE7QUNDSjs7QURFQTtFQUNJLFlBQUE7RUFDQSxXQUFBO0VBQ0EsUUFBQTtFQUNBLGtCQUFBO0VBQ0EsbUJBQUE7RUFDQSx5QkFBQTtBQ0NKOztBREVBO0VBQ0kseUJBQUE7QUNDSjs7QURFQTtFQUNJLHlCQUFBO0FDQ0o7O0FERUE7RUFDSSxlQUFBO0VBQ0EsbUJBQUE7RUFDQSxrQkFBQTtBQ0NKOztBREVBO0VBQ0ksa0JBQUE7QUNDSjs7QURFQTtFQUNJLHNCQUFBO0FDQ0o7O0FERUE7RUFDSSxZQUFBO0VBQ0EsV0FBQTtBQ0NKIiwiZmlsZSI6InNyYy9hcHAvaG5lZmF0YWZsL2huZWZhdGFmbC1ib2FyZC9obmVmYXRhZmwtYm9hcmQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJ0YWJsZSwgdGQsIHRoIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCByZ2IoNzEsIDcxLCA3MSk7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG50YWJsZSB7XG4gICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcbiAgICB3aWR0aDogNTUwcHg7XG4gICAgZm9udC1zaXplOiAyNHB4O1xuICAgIHRhYmxlLWxheW91dDogZml4ZWQ7XG59XG5cbnRoLCB0ZCB7XG4gICAgaGVpZ2h0OiA1MHB4O1xufVxuXG4ucGF3biB7XG4gICAgaGVpZ2h0OiA0MHB4O1xuICAgIHdpZHRoOiA0MHB4O1xuICAgIHRvcDogNHB4O1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBib3JkZXItcmFkaXVzOiAyNXB4O1xuICAgIGJvcmRlcjogMnB4IHNvbGlkIHJnYigxMywgMTUsIDEwKTtcbn1cblxuLndoaXRlIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjQ3LCAyNDcsIDI0Nyk7XG59XG5cbi5ibGFjayB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDEzLCAxNSwgMTApO1xufVxuXG4ua2luZyB7XG4gICAgZm9udC1zaXplOiAyNXB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkZXI7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uY2FzZSB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xufVxuXG4uZHJvcCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgIzAwMDtcbn1cblxuLnRlc3Qge1xuICAgIGhlaWdodDogMjBweDtcbiAgICB3aWR0aDogMjBweDtcbn1cbiIsInRhYmxlLCB0ZCwgdGgge1xuICBib3JkZXI6IDFweCBzb2xpZCAjNDc0NzQ3O1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbnRhYmxlIHtcbiAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcbiAgd2lkdGg6IDU1MHB4O1xuICBmb250LXNpemU6IDI0cHg7XG4gIHRhYmxlLWxheW91dDogZml4ZWQ7XG59XG5cbnRoLCB0ZCB7XG4gIGhlaWdodDogNTBweDtcbn1cblxuLnBhd24ge1xuICBoZWlnaHQ6IDQwcHg7XG4gIHdpZHRoOiA0MHB4O1xuICB0b3A6IDRweDtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICBib3JkZXItcmFkaXVzOiAyNXB4O1xuICBib3JkZXI6IDJweCBzb2xpZCAjMGQwZjBhO1xufVxuXG4ud2hpdGUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZjdmN2Y3O1xufVxuXG4uYmxhY2sge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMGQwZjBhO1xufVxuXG4ua2luZyB7XG4gIGZvbnQtc2l6ZTogMjVweDtcbiAgZm9udC13ZWlnaHQ6IGJvbGRlcjtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uY2FzZSB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbn1cblxuLmRyb3Age1xuICBib3JkZXI6IDFweCBzb2xpZCAjMDAwO1xufVxuXG4udGVzdCB7XG4gIGhlaWdodDogMjBweDtcbiAgd2lkdGg6IDIwcHg7XG59Il19 */");
+
+/***/ }),
+
+/***/ "./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.ts":
+/*!************************************************************************!*\
+  !*** ./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.ts ***!
+  \************************************************************************/
+/*! exports provided: HnefataflBoardComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflBoardComponent", function() { return HnefataflBoardComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
+let HnefataflBoardComponent = class HnefataflBoardComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+};
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], HnefataflBoardComponent.prototype, "board", void 0);
+HnefataflBoardComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-hnefatafl-board',
+        template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./hnefatafl-board.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.html")).default,
+        styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./hnefatafl-board.component.scss */ "./src/app/hnefatafl/hnefatafl-board/hnefatafl-board.component.scss")).default]
+    })
+], HnefataflBoardComponent);
+
+
+
+/***/ }),
+
 /***/ "./src/app/hnefatafl/hnefatafl.component.scss":
 /*!****************************************************!*\
   !*** ./src/app/hnefatafl/hnefatafl.component.scss ***!
@@ -729,6 +939,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _game_HnefataflGame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./game/HnefataflGame */ "./src/app/hnefatafl/game/HnefataflGame.ts");
+/* harmony import */ var _game_sample_sample__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./game/sample/sample */ "./src/app/hnefatafl/game/sample/sample.ts");
+
 
 
 
@@ -738,14 +950,36 @@ let HnefataflComponent = class HnefataflComponent {
     }
     ngOnInit() {
     }
-    dropped(event) {
-        console.log(event);
-    }
-    entered(event) {
-        console.log(event);
-    }
-    event(event) {
-        console.log(event);
+    loadGame(game) {
+        switch (game) {
+            case 0:
+                this.game.newGame();
+                break;
+            case 1:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["PAWN_CAPTURE_1"]);
+                break;
+            case 2:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["PAWN_CAPTURE_2"]);
+                break;
+            case 3:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["PAWN_CAPTURE_3"]);
+                break;
+            case 4:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["KING_CAPTURE_1"]);
+                break;
+            case 5:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["KING_CAPTURE_2"]);
+                break;
+            case 6:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["KING_CAPTURE_3"]);
+                break;
+            case 7:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["KING_CAPTURE_4"]);
+                break;
+            case 8:
+                this.game.loadGame(_game_sample_sample__WEBPACK_IMPORTED_MODULE_3__["KING_CAPTURE_5"]);
+                break;
+        }
     }
 };
 HnefataflComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
