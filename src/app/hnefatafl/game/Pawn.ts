@@ -1,13 +1,18 @@
 
 export class Pawn {
   id: string;
+  x: number;
+  y: number;
 
   isAttacker: boolean;
   isDefender: boolean;
   isKing: boolean;
 
-  constructor(id, isAttacker, isKing = false) {
+  constructor(id, x, y, isAttacker, isKing = false) {
     this.id = id;
+    this.x = x;
+    this.y = y;
+
     this.isAttacker = isAttacker;
     this.isDefender = !isAttacker;
     this.isKing = isKing;
