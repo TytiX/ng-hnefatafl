@@ -1,42 +1,17 @@
 import { CastExpr } from '@angular/compiler';
-
-export class Case {
-  x;
-  y;
-  isTower;
-
-  pawn;
-
-  constructor(x, y, isTower = false) {
-    this.x = x;
-    this.y = y;
-    this.isTower = isTower;
-  }
-}
-
-export class Pawn {
-  isAttacker;
-  isDefender;
-  isKing;
-
-  constructor(isAttacker, isKing = false) {
-    this.isAttacker = isAttacker;
-    this.isDefender = !isAttacker;
-    this.isKing = isKing;
-  }
-}
+import { Case } from './Case';
 
 export class HnefataflGame {
 
   size: number;
-  cases: Case[][] = new Array();
+  board: Case[][] = new Array();
 
   constructor(size) {
     this.size = size;
 
     for (let i = 0; i < size; i++) {
 
-      this.cases.push(new Array());
+      this.board.push(new Array());
 
       for (let j = 0; j < size; j++) {
         if ( (i === 0 && j === 0)
@@ -44,13 +19,12 @@ export class HnefataflGame {
         || (i === 0 && j === size - 1)
         || (i === size - 1 && j === size - 1)
         || (i === (size - 1) / 2 && j === (size - 1) / 2) ) {
-          this.cases[i].push(new Case(i, j, true));
+          this.board[i].push(new Case(i, j, true));
         } else {
-          this.cases[i].push(new Case(i, j));
+          this.board[i].push(new Case(i, j));
         }
       }
     }
-    console.log(this.cases);
   }
 
   newGame() {

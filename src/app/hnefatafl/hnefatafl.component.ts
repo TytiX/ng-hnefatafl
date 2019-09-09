@@ -25,4 +25,7 @@ export class HnefataflComponent implements OnInit {
     console.log(event);
   }
 
+  event(event) {
+    console.log(event);
+  }
 }
