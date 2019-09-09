@@ -4,18 +4,26 @@
     <tr *ngFor="let column of game.board" >
       <td class="case" *ngFor="let case of column" cdkDrop>
         <ng-template [ngIf]="case.isTower">X</ng-template>
+        <ng-template [ngIf]="case.pawn">
+          <div class="pawn" [ngClass]="{
+              'black': case.pawn.isAttacker,
+              'white': case.pawn.isDefender,
+              'king': case.pawn.isKing
+            }" cdkDrag>
+              <ng-template [ngIf]="case.pawn.isKing">+</ng-template>
+          </div>
+        </ng-template>
       </td>
     </tr>
   </table>
 
-  <div class="pawn black" cdkDrag (cdkDragDropped)="dropped($event)" (cdkDragEntered)="($event)"></div>
+  <!-- <div class="pawn black" cdkDrag (cdkDragDropped)="dropped($event)" (cdkDragEntered)="($event)"></div>
   <div class="pawn white" cdkDrag></div>
-  <div class="pawn white king" cdkDrag>+</div>
+  <div class="pawn white king" cdkDrag>+</div> -->
 
 </div>
 
-
-<div class="drop" cdkDrop>
+<!-- <div class="drop" cdkDrop>
   <div class="test" cdkDrag 
     (cdkDragDropped)="event($event)"
     (cdkDragEnded)="event($event)"
@@ -26,4 +34,4 @@
     (cdkDragStarted)="event($event)">
     X
   </div>
-</div>
+</div> -->

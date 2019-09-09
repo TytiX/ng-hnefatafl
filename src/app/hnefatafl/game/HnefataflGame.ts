@@ -1,10 +1,12 @@
-import { CastExpr } from '@angular/compiler';
 import { Case } from './Case';
+import { HnefataflEngine } from './HnefataflEngine';
 
 export class HnefataflGame {
 
   size: number;
   board: Case[][] = new Array();
+
+  engine: HnefataflEngine;
 
   constructor(size) {
     this.size = size;
@@ -25,6 +27,9 @@ export class HnefataflGame {
         }
       }
     }
+
+    this.engine = new HnefataflEngine(this.board);
+    this.engine.reinit();
   }
 
   newGame() {
