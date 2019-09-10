@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table cdkDropListGroup>\n    <tr *ngFor=\"let column of board\" >\n      <td class=\"case\"\n        *ngFor=\"let case of column\"\n        [attr.case-x]=\"case.x\"\n        [attr.case-y]=\"case.y\"\n        [attr.id]=\"case.id\"\n        cdkDropList>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n        <ng-template [ngIf]=\"case.pawn\">\n          <div class=\"pawn\" [attr.id]=\"case.pawn.id\" [ngClass]=\"{\n              'black': case.pawn.isAttacker,\n              'white': case.pawn.isDefender,\n              'king': case.pawn.isKing\n            }\" cdkDrag\n            (cdkDragDropped)=\"event($event, case.id)\">\n              <ng-template [ngIf]=\"case.pawn.isKing\">+</ng-template>\n          </div>\n        </ng-template>\n      </td>\n    </tr>\n  </table>\n\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table cdkDropListGroup>\n    <tr *ngFor=\"let column of board\" >\n      <td class=\"case\"\n        *ngFor=\"let case of column\"\n        [attr.case-x]=\"case.x\"\n        [attr.case-y]=\"case.y\"\n        [attr.id]=\"case.id\"\n        cdkDropList>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n        <ng-template [ngIf]=\"case.pawn\">\n          <div class=\"pawn\" [attr.id]=\"case.pawn.id\" [ngClass]=\"{\n              'black': case.pawn.isAttacker,\n              'white': case.pawn.isDefender,\n              'king': case.pawn.isKing\n            }\" cdkDrag\n            (cdkDragStarted)=\"showAllowedMoves($event)\"\n            (cdkDragDropped)=\"event($event, case.id)\">\n              <ng-template [ngIf]=\"case.pawn.isKing\">+</ng-template>\n          </div>\n        </ng-template>\n      </td>\n    </tr>\n  </table>\n\n</div>\n");
 
 /***/ }),
 
@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<app-hnefatafl-board [board]=\"game.board\" (droppedCase)=\"droppedGame($event)\"></app-hnefatafl-board>\n\n<button (click)=\"loadGame(0)\">Initial position</button>\n<button (click)=\"loadGame(1)\">Load position 1</button>\n<button (click)=\"loadGame(2)\">Load position 2</button>\n<button (click)=\"loadGame(3)\">Load position 3</button>\n<button (click)=\"loadGame(4)\">Load position 4</button>\n<button (click)=\"loadGame(5)\">Load position 5</button>\n<button (click)=\"loadGame(6)\">Load position 6</button>\n<button (click)=\"loadGame(7)\">Load position 7</button>\n<button (click)=\"loadGame(8)\">Load position 8</button>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\n\n<div>{{ game.engine.player }} turn</div>\n\n<app-hnefatafl-board [board]=\"game.board\" [engine]=\"game.engine\" (droppedCase)=\"droppedGame($event)\"></app-hnefatafl-board>\n\n<button (click)=\"loadGame(0)\">Initial position</button>\n<button (click)=\"loadGame(1)\">Load position 1</button>\n<button (click)=\"loadGame(2)\">Load position 2</button>\n<button (click)=\"loadGame(3)\">Load position 3</button>\n<button (click)=\"loadGame(4)\">Load position 4</button>\n<button (click)=\"loadGame(5)\">Load position 5</button>\n<button (click)=\"loadGame(6)\">Load position 6</button>\n<button (click)=\"loadGame(7)\">Load position 7</button>\n<button (click)=\"loadGame(8)\">Load position 8</button>\n");
 
 /***/ }),
 
@@ -437,6 +437,9 @@ class Case {
         this.isTower = isTower;
         this.isCornerTower = isCornerTower;
     }
+    containsPawn() {
+        return this.pawn !== undefined || this.pawn !== null;
+    }
 }
 
 
@@ -536,6 +539,11 @@ class HnefataflEngine {
     posibleMoves(pawnId) {
         const pawn = this.pawns[pawnId];
         const cases = new Array();
+        console.log('movable pawn', pawn);
+        if ((this.player === ATTACKERS && pawn.isDefender)
+            || (this.player === DEFENDERS && pawn.isAttacker)) {
+            return cases;
+        }
         // find accesible cases on x+
         for (let x1 = pawn.x + 1; x1 < this.board.length; x1++) {
             if (this.board[x1][pawn.y].pawn || (this.board[x1][pawn.y].isTower && pawn.isAttacker)) {
@@ -584,10 +592,11 @@ class HnefataflEngine {
             console.log('not allowed');
             return false;
         }
-        this.board[pawn.x][pawn.y].pawn = null;
+        this.board[pawn.x][pawn.y].pawn = undefined;
         pawn.x = pawn.x + vector.x;
         pawn.y = pawn.y + vector.y;
         this.board[pawn.x][pawn.y].pawn = pawn;
+        this.pawns[pawnId] = pawn;
         this.applyCaptures(pawn);
         this.checkDefenderVictory(pawn);
         this.changeTurn();
@@ -644,7 +653,6 @@ class HnefataflEngine {
         return captured;
     }
     isOponentPawn(pawn, x, y, king = false) {
-        console.log(x, y);
         return this.board[x]
             && this.board[x][y]
             && this.board[x][y].pawn
@@ -681,17 +689,17 @@ class HnefataflEngine {
         }
         // x-
         if (this.isOponentPawn(pawn, pawn.x - 1, pawn.y, true)
-            && this.isOponentKingCaptured(pawn.x - 2, pawn.y)) {
+            && this.isOponentKingCaptured(pawn.x - 1, pawn.y)) {
             captured = true;
         }
         // y+
         if (this.isOponentPawn(pawn, pawn.x, pawn.y + 1, true)
-            && this.isOponentKingCaptured(pawn.x, pawn.y + 2)) {
+            && this.isOponentKingCaptured(pawn.x, pawn.y + 1)) {
             captured = true;
         }
         // y-
         if (this.isOponentPawn(pawn, pawn.x, pawn.y - 1, true)
-            && this.isOponentKingCaptured(pawn.x, pawn.y - 2)) {
+            && this.isOponentKingCaptured(pawn.x, pawn.y - 1)) {
             captured = true;
         }
         return captured;
@@ -1043,8 +1051,10 @@ let HnefataflBoardComponent = class HnefataflBoardComponent {
     }
     ngOnInit() {
     }
+    showAllowedMoves(event) {
+        console.log(this.engine.posibleMoves(event.source.element.nativeElement.getAttribute('id')));
+    }
     event(event) {
-        console.log(event);
         const x = event.container.element.nativeElement.getAttribute('case-x');
         const y = event.container.element.nativeElement.getAttribute('case-y');
         const pawnId = event.item.element.nativeElement.getAttribute('id');
@@ -1054,6 +1064,9 @@ let HnefataflBoardComponent = class HnefataflBoardComponent {
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], HnefataflBoardComponent.prototype, "board", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+], HnefataflBoardComponent.prototype, "engine", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
 ], HnefataflBoardComponent.prototype, "droppedCase", void 0);
