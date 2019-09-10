@@ -17,4 +17,9 @@ export class Case {
     this.isTower = isTower;
     this.isCornerTower = isCornerTower;
   }
+
+  containsPawn() {
+    return this.pawn !== undefined || this.pawn !== null;
+  }
+
 }

@@ -56,6 +56,13 @@ export class HnefataflEngine {
   posibleMoves(pawnId): Case[] {
     const pawn = this.pawns[pawnId];
     const cases: Case[] = new Array();
+
+    console.log('movable pawn', pawn);
+
+    if ( (this.player === ATTACKERS && pawn.isDefender)
+      || (this.player === DEFENDERS && pawn.isAttacker) ) {
+      return cases;
+    }
     // find accesible cases on x+
     for (let x1 = pawn.x + 1; x1 < this.board.length; x1++) {
       if ( this.board[x1][pawn.y].pawn || (this.board[x1][pawn.y].isTower && pawn.isAttacker) ) {
@@ -104,12 +111,13 @@ export class HnefataflEngine {
       return false;
     }
 
-    this.board[pawn.x][pawn.y].pawn = null;
+    this.board[pawn.x][pawn.y].pawn = undefined;
 
     pawn.x = pawn.x + vector.x;
     pawn.y = pawn.y + vector.y;
 
     this.board[pawn.x][pawn.y].pawn = pawn;
+    this.pawns[pawnId] = pawn;
 
     this.applyCaptures(pawn);
 
@@ -172,7 +180,6 @@ export class HnefataflEngine {
   }
 
   private isOponentPawn(pawn: Pawn, x: number, y: number, king = false): boolean {
-    console.log(x, y);
     return this.board[x]
     && this.board[x][y]
     && this.board[x][y].pawn
@@ -213,17 +220,17 @@ export class HnefataflEngine {
     }
     // x-
     if ( this.isOponentPawn(pawn, pawn.x - 1, pawn.y, true)
-        && this.isOponentKingCaptured(pawn.x - 2, pawn.y) ) {
+        && this.isOponentKingCaptured(pawn.x - 1, pawn.y) ) {
       captured = true;
     }
     // y+
     if ( this.isOponentPawn(pawn, pawn.x, pawn.y + 1, true)
-        && this.isOponentKingCaptured(pawn.x, pawn.y + 2) ) {
+        && this.isOponentKingCaptured(pawn.x, pawn.y + 1) ) {
       captured = true;
     }
     // y-
     if ( this.isOponentPawn(pawn, pawn.x, pawn.y - 1, true)
-        && this.isOponentKingCaptured(pawn.x, pawn.y - 2) ) {
+        && this.isOponentKingCaptured(pawn.x, pawn.y - 1) ) {
       captured = true;
     }
     return captured;

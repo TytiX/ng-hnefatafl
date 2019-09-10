@@ -15,6 +15,7 @@
               'white': case.pawn.isDefender,
               'king': case.pawn.isKing
             }" cdkDrag
+            (cdkDragStarted)="showAllowedMoves($event)"
             (cdkDragDropped)="event($event, case.id)">
               <ng-template [ngIf]="case.pawn.isKing">+</ng-template>
           </div>

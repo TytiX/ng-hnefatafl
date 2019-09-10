@@ -1,4 +1,8 @@
-<app-hnefatafl-board [board]="game.board" (droppedCase)="droppedGame($event)"></app-hnefatafl-board>
+
+
+<div>{{ game.engine.player }} turn</div>
+
+<app-hnefatafl-board [board]="game.board" [engine]="game.engine" (droppedCase)="droppedGame($event)"></app-hnefatafl-board>
 
 <button (click)="loadGame(0)">Initial position</button>
 <button (click)="loadGame(1)">Load position 1</button>

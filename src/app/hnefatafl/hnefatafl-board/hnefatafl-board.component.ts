@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Case } from './../game/Case';
 import { Vector } from '../game/Vector';
+import { HnefataflEngine } from '../game/HnefataflEngine';
 
 @Component({
   selector: 'app-hnefatafl-board',
@@ -13,6 +14,9 @@ export class HnefataflBoardComponent implements OnInit {
   @Input()
   board: Case[][];
 
+  @Input()
+  engine: HnefataflEngine;
+
   @Output()
   droppedCase = new EventEmitter<any>();
 
@@ -21,8 +25,11 @@ export class HnefataflBoardComponent implements OnInit {
   ngOnInit() {
   }
 
+  showAllowedMoves(event) {
+    console.log(this.engine.posibleMoves(event.source.element.nativeElement.getAttribute('id')));
+  }
+
   event(event) {
-    console.log(event);
     const x = event.container.element.nativeElement.getAttribute('case-x');
     const y = event.container.element.nativeElement.getAttribute('case-y');
     const pawnId = event.item.element.nativeElement.getAttribute('id');
