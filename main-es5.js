@@ -60,12 +60,7 @@ return this.board[x]===undefined// wall
 ||this.board[x][y]===undefined// wall
 ||this.board[x][y].isTower// tower
 ||this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker===pawn.isAttacker;// is same pawn
-};_proto2.applyKingCapture=function applyKingCapture(pawn){var kingCaptured=false;kingCaptured=this.simpleKingCapture(pawn);// this is complicated
-// with a group
-// 0 0 1 1 0
-// 0 1 3 2 1
-// 0 0 1 1 0
-if(kingCaptured){this.triggerVictory(ATTACKERS)}};_proto2.simpleKingCapture=function simpleKingCapture(pawn){var captured=false;if(this.isOponentPawn(pawn,pawn.x+1,pawn.y,true)&&this.isOponentKingCaptured(pawn.x+1,pawn.y)){captured=true}// x-
+};_proto2.applyKingCapture=function applyKingCapture(pawn){if(this.simpleKingCapture(pawn)||this.complicatedKingCapture(pawn)){this.triggerVictory(ATTACKERS)}};_proto2.simpleKingCapture=function simpleKingCapture(pawn){var captured=false;if(this.isOponentPawn(pawn,pawn.x+1,pawn.y,true)&&this.isOponentKingCaptured(pawn.x+1,pawn.y)){captured=true}// x-
 if(this.isOponentPawn(pawn,pawn.x-1,pawn.y,true)&&this.isOponentKingCaptured(pawn.x-1,pawn.y)){captured=true}// y+
 if(this.isOponentPawn(pawn,pawn.x,pawn.y+1,true)&&this.isOponentKingCaptured(pawn.x,pawn.y+1)){captured=true}// y-
 if(this.isOponentPawn(pawn,pawn.x,pawn.y-1,true)&&this.isOponentKingCaptured(pawn.x,pawn.y-1)){captured=true}return captured};_proto2.isOponentKingCaptured=function isOponentKingCaptured(x,y){// capture king
@@ -84,10 +79,15 @@ if(this.isOponentPawn(pawn,pawn.x,pawn.y-1,true)&&this.isOponentKingCaptured(paw
 // 0 0 X
 // 0 1 3
 // 0 0 1
-if(this.board[x][y].pawn.isKing&&this.boardCaseIsWallTowerOrAttaker(x+1,y)&&this.boardCaseIsWallTowerOrAttaker(x-1,y)&&this.boardCaseIsWallTowerOrAttaker(x,y+1)&&this.boardCaseIsWallTowerOrAttaker(x,y-1)){return true}return false};_proto2.boardCaseIsWallTowerOrAttaker=function boardCaseIsWallTowerOrAttaker(x,y){return this.board[x]===undefined// wall x
+if(this.board[x][y].pawn.isKing&&this.boardCaseIsWallTowerOrAttaker(x+1,y)&&this.boardCaseIsWallTowerOrAttaker(x-1,y)&&this.boardCaseIsWallTowerOrAttaker(x,y+1)&&this.boardCaseIsWallTowerOrAttaker(x,y-1)){return true}return false};_proto2.complicatedKingCapture=function complicatedKingCapture(pawn){// this is complicated
+// with a group
+// 0 0 1 1 0
+// 0 1 3 2 1
+// 0 0 1 1 0
+return false};_proto2.boardCaseIsWallTowerOrAttaker=function boardCaseIsWallTowerOrAttaker(x,y){return this.board[x]===undefined// wall x
 ||this.board[x][y]===undefined// wall y
 ||this.board[x][y].isTower// tower
-||this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker};_proto2.triggerVictory=function triggerVictory(victory){throw new Error("Method not implemented.")};_proto2.moveIsPossible=function moveIsPossible(pawn,vector){if(this.posibleMoves(pawn.id).indexOf(this.board[pawn.x+vector.x][pawn.y+vector.y])>-1){return true}return false};_proto2.verifyTurn=function verifyTurn(pawn){if(this.player===ATTACKERS&&pawn.isAttacker){return true}else if(this.player===DEFENDERS&&pawn.isDefender){return true}else{return false}};_proto2.changeTurn=function changeTurn(){if(this.player===ATTACKERS){this.player=DEFENDERS}else{this.player=ATTACKERS}this.turn++};return HnefataflEngine}();/***/},/***/"./src/app/hnefatafl/game/HnefataflGame.ts":/*!*************************************************!*\
+||this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker};_proto2.triggerVictory=function triggerVictory(victory){throw new Error("Victory for : "+victory)};_proto2.moveIsPossible=function moveIsPossible(pawn,vector){if(this.posibleMoves(pawn.id).indexOf(this.board[pawn.x+vector.x][pawn.y+vector.y])>-1){return true}return false};_proto2.verifyTurn=function verifyTurn(pawn){if(this.player===ATTACKERS&&pawn.isAttacker){return true}else if(this.player===DEFENDERS&&pawn.isDefender){return true}else{return false}};_proto2.changeTurn=function changeTurn(){if(this.player===ATTACKERS){this.player=DEFENDERS}else{this.player=ATTACKERS}this.turn++};return HnefataflEngine}();/***/},/***/"./src/app/hnefatafl/game/HnefataflGame.ts":/*!*************************************************!*\
   !*** ./src/app/hnefatafl/game/HnefataflGame.ts ***!
   \*************************************************/ /*! exports provided: HnefataflGame */ /***/function srcAppHnefataflGameHnefataflGameTs(module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.r(__webpack_exports__);/* harmony export (binding) */__webpack_require__.d(__webpack_exports__,"HnefataflGame",function(){return HnefataflGame});/* harmony import */var tslib__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__(/*! tslib */"./node_modules/tslib/tslib.es6.js");/* harmony import */var _Case__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__(/*! ./Case */"./src/app/hnefatafl/game/Case.ts");/* harmony import */var _HnefataflEngine__WEBPACK_IMPORTED_MODULE_2__=__webpack_require__(/*! ./HnefataflEngine */"./src/app/hnefatafl/game/HnefataflEngine.ts");/* harmony import */var _Constants__WEBPACK_IMPORTED_MODULE_3__=__webpack_require__(/*! ./Constants */"./src/app/hnefatafl/game/Constants.ts");var HnefataflGame=/*#__PURE__*/function(){function HnefataflGame(size){this.board=new Array;this.size=size;this.cleanBoard();this.engine=new _HnefataflEngine__WEBPACK_IMPORTED_MODULE_2__["HnefataflEngine"](this.board);this.engine.reinit()}var _proto3=HnefataflGame.prototype;_proto3.move=function move(pawnId,caze){var moveVector=this.engine.toMoveVector(pawnId,caze);this.engine.move(pawnId,moveVector)};_proto3.cleanBoard=function cleanBoard(){this.board.length=0;for(var i=0;i<this.size;i++){this.board.push(new Array);for(var j=0;j<this.size;j++){if(i===0&&j===0||i===this.size-1&&j===0||i===0&&j===this.size-1||i===this.size-1&&j===this.size-1){this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i,j,true,true))}else if(i===(this.size-1)/2&&j===(this.size-1)/2){this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i,j,true))}else{this.board[i].push(new _Case__WEBPACK_IMPORTED_MODULE_1__["Case"](i,j))}}}};_proto3.newGame=function newGame(){// restart pawns to start positions
 this.cleanBoard();this.engine.load(_Constants__WEBPACK_IMPORTED_MODULE_3__["INITIAL_POSITION"])};_proto3.saveGame=function saveGame(){// export pawns postions and current turn

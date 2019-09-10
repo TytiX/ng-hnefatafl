@@ -670,14 +670,7 @@ class HnefataflEngine {
             || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker === pawn.isAttacker); // is same pawn
     }
     applyKingCapture(pawn) {
-        let kingCaptured = false;
-        kingCaptured = this.simpleKingCapture(pawn);
-        // this is complicated
-        // with a group
-        // 0 0 1 1 0
-        // 0 1 3 2 1
-        // 0 0 1 1 0
-        if (kingCaptured) {
+        if (this.simpleKingCapture(pawn) || this.complicatedKingCapture(pawn)) {
             this.triggerVictory(ATTACKERS);
         }
     }
@@ -730,6 +723,14 @@ class HnefataflEngine {
         }
         return false;
     }
+    complicatedKingCapture(pawn) {
+        // this is complicated
+        // with a group
+        // 0 0 1 1 0
+        // 0 1 3 2 1
+        // 0 0 1 1 0
+        return false;
+    }
     boardCaseIsWallTowerOrAttaker(x, y) {
         return this.board[x] === undefined // wall x
             || this.board[x][y] === undefined // wall y
@@ -737,7 +738,7 @@ class HnefataflEngine {
             || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker);
     }
     triggerVictory(victory) {
-        throw new Error('Method not implemented.');
+        throw new Error('Victory for : ' + victory);
     }
     moveIsPossible(pawn, vector) {
         if (this.posibleMoves(pawn.id).indexOf(this.board[pawn.x + vector.x][pawn.y + vector.y]) > -1) {
