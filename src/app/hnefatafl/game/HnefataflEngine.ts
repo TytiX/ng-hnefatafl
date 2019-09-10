@@ -126,11 +126,50 @@ export class HnefataflEngine {
 
   applyPawnsCaptures(pawn: Pawn) {
     // capture pawns
-    // 0 0 1 2 1 0 horizontal...
-    // agains the wall
-    // 0 0 0 0 1 2
-    // agains a fort
-    // 0 0 0 1 2 X
+    // x+
+    if ( this.isOponentPawn(pawn, pawn.x + 1, pawn.y)
+        && this.isOponentCaptured(pawn, pawn.x + 2, pawn.y) ) {
+        const capturePawn = this.board[pawn.x + 1][pawn.y].pawn;
+        this.pawns[capturePawn.id] = null;
+        this.board[pawn.x + 1][pawn.y].pawn = null;
+    }
+    // x-
+    if ( this.isOponentPawn(pawn, pawn.x - 1, pawn.y)
+        && this.isOponentCaptured(pawn, pawn.x - 2, pawn.y) ) {
+        const capturePawn = this.board[pawn.x - 1][pawn.y].pawn;
+        this.pawns[capturePawn.id] = null;
+        this.board[pawn.x - 1][pawn.y].pawn = null;
+    }
+    // y+
+    if ( this.isOponentPawn(pawn, pawn.x, pawn.y + 1)
+        && this.isOponentCaptured(pawn, pawn.x, pawn.y + 2) ) {
+        const capturePawn = this.board[pawn.x][pawn.y + 1].pawn;
+        this.pawns[capturePawn.id] = null;
+        this.board[pawn.x][pawn.y + 1].pawn = null;
+    }
+    // y-
+    if ( this.isOponentPawn(pawn, pawn.x, pawn.y - 1)
+        && this.isOponentCaptured(pawn, pawn.x, pawn.y - 2) ) {
+        const capturePawn = this.board[pawn.x][pawn.y - 1].pawn;
+        this.pawns[capturePawn.id] = null;
+        this.board[pawn.x][pawn.y - 1].pawn = null;
+    }
+  }
+
+  private isOponentPawn(pawn: Pawn, x: number, y: number): boolean {
+    return this.board[x][y].pawn
+    && this.board[x][y].pawn.isAttacker !== pawn.isAttacker
+    && !this.board[x][y].pawn.isKing;
+  }
+
+  private isOponentCaptured(pawn: Pawn, x: number, y: number): boolean {
+    // if x+2 is a wall
+    // a pawn
+    // a tower
+    // pawn on x+1 is taken
+    return this.board[x][y] === undefined // wall
+      || this.board[x][y].isTower // tower
+      || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker === pawn.isAttacker); // is same pawn
   }
 
   applyKingCapture(pawn: Pawn) {
