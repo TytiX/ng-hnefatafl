@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table>\n    <tr *ngFor=\"let column of board\" >\n      <td class=\"case\" *ngFor=\"let case of column\" cdkDrop>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n        <ng-template [ngIf]=\"case.pawn\">\n          <div class=\"pawn\" [ngClass]=\"{\n              'black': case.pawn.isAttacker,\n              'white': case.pawn.isDefender,\n              'king': case.pawn.isKing\n            }\" cdkDrag>\n              <ng-template [ngIf]=\"case.pawn.isKing\">+</ng-template>\n          </div>\n        </ng-template>\n      </td>\n    </tr>\n  </table>\n\n  <!-- <div class=\"pawn black\" cdkDrag (cdkDragDropped)=\"dropped($event)\" (cdkDragEntered)=\"($event)\"></div>\n  <div class=\"pawn white\" cdkDrag></div>\n  <div class=\"pawn white king\" cdkDrag>+</div> -->\n\n</div>\n\n<!-- <div class=\"drop\" cdkDrop>\n  <div class=\"test\" cdkDrag \n    (cdkDragDropped)=\"event($event)\"\n    (cdkDragEnded)=\"event($event)\"\n    (cdkDragEntered)=\"event($event)\"\n    (cdkDragExited)=\"event($event)\"\n    (cdkDragMoved)=\"event($event)\"\n    (cdkDragReleased)=\"event($event)\"\n    (cdkDragStarted)=\"event($event)\">\n    X\n  </div>\n</div> -->\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n\n  <table cdkDropListGroup>\n    <tr *ngFor=\"let column of board\" >\n      <td class=\"case\"\n        *ngFor=\"let case of column\"\n        [attr.case-x]=\"case.x\"\n        [attr.case-y]=\"case.y\"\n        [attr.id]=\"case.id\"\n        cdkDropList>\n        <ng-template [ngIf]=\"case.isTower\">X</ng-template>\n        <ng-template [ngIf]=\"case.pawn\">\n          <div class=\"pawn\" [attr.id]=\"case.pawn.id\" [ngClass]=\"{\n              'black': case.pawn.isAttacker,\n              'white': case.pawn.isDefender,\n              'king': case.pawn.isKing\n            }\" cdkDrag\n            (cdkDragDropped)=\"event($event, case.id)\">\n              <ng-template [ngIf]=\"case.pawn.isKing\">+</ng-template>\n          </div>\n        </ng-template>\n      </td>\n    </tr>\n  </table>\n\n</div>\n");
 
 /***/ }),
 
@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<app-hnefatafl-board [board]=\"game.board\"></app-hnefatafl-board>\n\n<button (click)=\"loadGame(0)\">Initial position</button>\n<button (click)=\"loadGame(1)\">Load position 1</button>\n<button (click)=\"loadGame(2)\">Load position 2</button>\n<button (click)=\"loadGame(3)\">Load position 3</button>\n<button (click)=\"loadGame(4)\">Load position 4</button>\n<button (click)=\"loadGame(5)\">Load position 5</button>\n<button (click)=\"loadGame(6)\">Load position 6</button>\n<button (click)=\"loadGame(7)\">Load position 7</button>\n<button (click)=\"loadGame(8)\">Load position 8</button>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<app-hnefatafl-board [board]=\"game.board\" (droppedCase)=\"droppedGame($event)\"></app-hnefatafl-board>\n\n<button (click)=\"loadGame(0)\">Initial position</button>\n<button (click)=\"loadGame(1)\">Load position 1</button>\n<button (click)=\"loadGame(2)\">Load position 2</button>\n<button (click)=\"loadGame(3)\">Load position 3</button>\n<button (click)=\"loadGame(4)\">Load position 4</button>\n<button (click)=\"loadGame(5)\">Load position 5</button>\n<button (click)=\"loadGame(6)\">Load position 6</button>\n<button (click)=\"loadGame(7)\">Load position 7</button>\n<button (click)=\"loadGame(8)\">Load position 8</button>\n");
 
 /***/ }),
 
@@ -431,6 +431,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class Case {
     constructor(x, y, isTower = false, isCornerTower = false) {
+        this.id = x + '-' + y;
         this.x = x;
         this.y = y;
         this.isTower = isTower;
@@ -485,7 +486,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflEngine", function() { return HnefataflEngine; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _Pawn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pawn */ "./src/app/hnefatafl/game/Pawn.ts");
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Constants */ "./src/app/hnefatafl/game/Constants.ts");
+/* harmony import */ var _Vector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Vector */ "./src/app/hnefatafl/game/Vector.ts");
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Constants */ "./src/app/hnefatafl/game/Constants.ts");
+
 
 
 
@@ -497,12 +500,13 @@ class HnefataflEngine {
         this.pawns = new Array();
     }
     reinit() {
-        this.load(_Constants__WEBPACK_IMPORTED_MODULE_2__["INITIAL_POSITION"]);
+        this.load(_Constants__WEBPACK_IMPORTED_MODULE_3__["INITIAL_POSITION"]);
         this.turn = 0;
         this.player = ATTACKERS;
     }
-    load(positions) {
+    load(positions, turn = 0, isAttackerTurn = true) {
         let lastId = 0;
+        this.pawns.length = 0;
         for (const [x, line] of this.board.entries()) {
             for (const [y, caze] of line.entries()) {
                 if (positions[x][y] === 1) {
@@ -522,6 +526,8 @@ class HnefataflEngine {
                 }
             }
         }
+        this.turn = turn;
+        this.player = isAttackerTurn ? ATTACKERS : DEFENDERS;
     }
     /**
      * Output the possible cases for a move for the current pawn.
@@ -568,9 +574,14 @@ class HnefataflEngine {
         }
         return cases;
     }
+    toMoveVector(pawnId, caze) {
+        const pawn = this.pawns[pawnId];
+        return new _Vector__WEBPACK_IMPORTED_MODULE_2__["Vector"](caze.x - pawn.x, caze.y - pawn.y);
+    }
     move(pawnId, vector) {
         const pawn = Object.assign({}, this.pawns[pawnId]);
         if (!pawn || !this.verifyTurn(pawn) || !this.moveIsPossible(pawn, vector)) {
+            console.log('not allowed');
             return false;
         }
         this.board[pawn.x][pawn.y].pawn = null;
@@ -626,17 +637,21 @@ class HnefataflEngine {
             this.board[pawn.x][pawn.y - 1].pawn = null;
         }
     }
-    isOponentPawn(pawn, x, y) {
-        return this.board[x][y].pawn
+    isOponentPawn(pawn, x, y, king = false) {
+        console.log(x, y);
+        return this.board[x]
+            && this.board[x][y]
+            && this.board[x][y].pawn
             && this.board[x][y].pawn.isAttacker !== pawn.isAttacker
-            && !this.board[x][y].pawn.isKing;
+            && this.board[x][y].pawn.isKing === king;
     }
     isOponentCaptured(pawn, x, y) {
         // if x+2 is a wall
         // a pawn
         // a tower
         // pawn on x+1 is taken
-        return this.board[x][y] === undefined // wall
+        return this.board[x] === undefined // wall
+            || this.board[x][y] === undefined // wall
             || this.board[x][y].isTower // tower
             || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker === pawn.isAttacker); // is same pawn
     }
@@ -658,6 +673,7 @@ class HnefataflEngine {
         // 0 0 X
         // 0 1 3
         // 0 0 1
+        // this is complicated
         // with a group
         // 0 0 1 1 0
         // 0 1 3 2 1
@@ -726,6 +742,10 @@ class HnefataflGame {
         this.engine = new _HnefataflEngine__WEBPACK_IMPORTED_MODULE_2__["HnefataflEngine"](this.board);
         this.engine.reinit();
     }
+    move(pawnId, caze) {
+        const moveVector = this.engine.toMoveVector(pawnId, caze);
+        this.engine.move(pawnId, moveVector);
+    }
     cleanBoard() {
         this.board.length = 0;
         for (let i = 0; i < this.size; i++) {
@@ -784,6 +804,28 @@ class Pawn {
         this.isAttacker = isAttacker;
         this.isDefender = !isAttacker;
         this.isKing = isKing;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/app/hnefatafl/game/Vector.ts":
+/*!******************************************!*\
+  !*** ./src/app/hnefatafl/game/Vector.ts ***!
+  \******************************************/
+/*! exports provided: Vector */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Vector", function() { return Vector; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+class Vector {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
     }
 }
 
@@ -945,16 +987,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HnefataflBoardComponent", function() { return HnefataflBoardComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _game_Vector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/Vector */ "./src/app/hnefatafl/game/Vector.ts");
+
 
 
 let HnefataflBoardComponent = class HnefataflBoardComponent {
-    constructor() { }
+    constructor() {
+        this.droppedCase = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+    }
     ngOnInit() {
+    }
+    event(event) {
+        console.log(event);
+        const x = event.container.element.nativeElement.getAttribute('case-x');
+        const y = event.container.element.nativeElement.getAttribute('case-y');
+        const pawnId = event.item.element.nativeElement.getAttribute('id');
+        this.droppedCase.emit({ pawnId, caze: new _game_Vector__WEBPACK_IMPORTED_MODULE_2__["Vector"](x, y) });
     }
 };
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
 ], HnefataflBoardComponent.prototype, "board", void 0);
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+], HnefataflBoardComponent.prototype, "droppedCase", void 0);
 HnefataflBoardComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-hnefatafl-board',
@@ -1003,6 +1059,10 @@ let HnefataflComponent = class HnefataflComponent {
         this.game = new _game_HnefataflGame__WEBPACK_IMPORTED_MODULE_2__["HnefataflGame"](11);
     }
     ngOnInit() {
+    }
+    droppedGame(event) {
+        console.log(event);
+        this.game.move(event.pawnId, event.caze);
     }
     loadGame(game) {
         switch (game) {
