@@ -1,15 +1,21 @@
 <div>
 
-  <table>
+  <table cdkDropListGroup>
     <tr *ngFor="let column of board" >
-      <td class="case" *ngFor="let case of column" cdkDrop>
+      <td class="case"
+        *ngFor="let case of column"
+        [attr.case-x]="case.x"
+        [attr.case-y]="case.y"
+        [attr.id]="case.id"
+        cdkDropList>
         <ng-template [ngIf]="case.isTower">X</ng-template>
         <ng-template [ngIf]="case.pawn">
-          <div class="pawn" [ngClass]="{
+          <div class="pawn" [attr.id]="case.pawn.id" [ngClass]="{
               'black': case.pawn.isAttacker,
               'white': case.pawn.isDefender,
               'king': case.pawn.isKing
-            }" cdkDrag>
+            }" cdkDrag
+            (cdkDragDropped)="event($event, case.id)">
               <ng-template [ngIf]="case.pawn.isKing">+</ng-template>
           </div>
         </ng-template>
@@ -17,21 +23,4 @@
     </tr>
   </table>
 
-  <!-- <div class="pawn black" cdkDrag (cdkDragDropped)="dropped($event)" (cdkDragEntered)="($event)"></div>
-  <div class="pawn white" cdkDrag></div>
-  <div class="pawn white king" cdkDrag>+</div> -->
-
 </div>
-
-<!-- <div class="drop" cdkDrop>
-  <div class="test" cdkDrag 
-    (cdkDragDropped)="event($event)"
-    (cdkDragEnded)="event($event)"
-    (cdkDragEntered)="event($event)"
-    (cdkDragExited)="event($event)"
-    (cdkDragMoved)="event($event)"
-    (cdkDragReleased)="event($event)"
-    (cdkDragStarted)="event($event)">
-    X
-  </div>
-</div> -->

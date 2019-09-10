@@ -1,6 +1,7 @@
 import { Pawn } from './Pawn';
 
 export class Case {
+  id: string;
   x: number;
   y: number;
 
@@ -10,6 +11,7 @@ export class Case {
   pawn: Pawn;
 
   constructor(x, y, isTower = false, isCornerTower = false) {
+    this.id = x + '-' + y;
     this.x = x;
     this.y = y;
     this.isTower = isTower;

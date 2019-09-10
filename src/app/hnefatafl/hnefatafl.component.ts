@@ -27,6 +27,11 @@ export class HnefataflComponent implements OnInit {
   ngOnInit() {
   }
 
+  droppedGame(event) {
+    console.log(event);
+    this.game.move(event.pawnId, event.caze);
+  }
+
   loadGame(game: number) {
     switch (game) {
       case 0:

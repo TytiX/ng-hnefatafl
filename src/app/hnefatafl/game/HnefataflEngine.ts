@@ -25,8 +25,9 @@ export class HnefataflEngine {
     this.player = ATTACKERS;
   }
 
-  load(positions: number[][]) {
+  load(positions: number[][], turn = 0, isAttackerTurn = true) {
     let lastId = 0;
+    this.pawns.length = 0;
     for (const [x, line] of this.board.entries()) {
       for (const [y, caze] of line.entries()) {
         if (positions[x][y] === 1) {
@@ -44,6 +45,8 @@ export class HnefataflEngine {
         }
       }
     }
+    this.turn = turn;
+    this.player = isAttackerTurn ? ATTACKERS : DEFENDERS;
   }
 
   /**
@@ -88,10 +91,16 @@ export class HnefataflEngine {
     return cases;
   }
 
+  toMoveVector(pawnId: number, caze: Vector): Vector {
+    const pawn = this.pawns[pawnId];
+    return new Vector(caze.x - pawn.x, caze.y - pawn.y);
+  }
+
   move(pawnId: number, vector: Vector): boolean {
     const pawn = Object.assign({}, this.pawns[pawnId]);
 
     if (!pawn || !this.verifyTurn(pawn) || !this.moveIsPossible(pawn, vector)) {
+      console.log('not allowed');
       return false;
     }
 
@@ -156,10 +165,13 @@ export class HnefataflEngine {
     }
   }
 
-  private isOponentPawn(pawn: Pawn, x: number, y: number): boolean {
-    return this.board[x][y].pawn
+  private isOponentPawn(pawn: Pawn, x: number, y: number, king = false): boolean {
+    console.log(x, y);
+    return this.board[x]
+    && this.board[x][y]
+    && this.board[x][y].pawn
     && this.board[x][y].pawn.isAttacker !== pawn.isAttacker
-    && !this.board[x][y].pawn.isKing;
+    && this.board[x][y].pawn.isKing === king;
   }
 
   private isOponentCaptured(pawn: Pawn, x: number, y: number): boolean {
@@ -167,7 +179,8 @@ export class HnefataflEngine {
     // a pawn
     // a tower
     // pawn on x+1 is taken
-    return this.board[x][y] === undefined // wall
+    return this.board[x] === undefined // wall
+      || this.board[x][y] === undefined // wall
       || this.board[x][y].isTower // tower
       || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker === pawn.isAttacker); // is same pawn
   }
@@ -190,6 +203,8 @@ export class HnefataflEngine {
     // 0 0 X
     // 0 1 3
     // 0 0 1
+
+    // this is complicated
     // with a group
     // 0 0 1 1 0
     // 0 1 3 2 1

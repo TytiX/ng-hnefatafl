@@ -1,6 +1,7 @@
 import { Case } from './Case';
 import { HnefataflEngine } from './HnefataflEngine';
 import { INITIAL_POSITION } from './Constants';
+import { Vector } from './Vector';
 
 export class HnefataflGame {
 
@@ -16,6 +17,11 @@ export class HnefataflGame {
 
     this.engine = new HnefataflEngine(this.board);
     this.engine.reinit();
+  }
+
+  move(pawnId: number, caze: Vector) {
+    const moveVector = this.engine.toMoveVector(pawnId, caze);
+    this.engine.move(pawnId, moveVector);
   }
 
   private cleanBoard() {
