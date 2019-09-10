@@ -133,14 +133,16 @@ export class HnefataflEngine {
     this.applyKingCapture(pawn);
   }
 
-  applyPawnsCaptures(pawn: Pawn) {
+  applyPawnsCaptures(pawn: Pawn): boolean {
     // capture pawns
+    let captured = false;
     // x+
     if ( this.isOponentPawn(pawn, pawn.x + 1, pawn.y)
         && this.isOponentCaptured(pawn, pawn.x + 2, pawn.y) ) {
         const capturePawn = this.board[pawn.x + 1][pawn.y].pawn;
         this.pawns[capturePawn.id] = null;
         this.board[pawn.x + 1][pawn.y].pawn = null;
+        captured = true;
     }
     // x-
     if ( this.isOponentPawn(pawn, pawn.x - 1, pawn.y)
@@ -148,6 +150,7 @@ export class HnefataflEngine {
         const capturePawn = this.board[pawn.x - 1][pawn.y].pawn;
         this.pawns[capturePawn.id] = null;
         this.board[pawn.x - 1][pawn.y].pawn = null;
+        captured = true;
     }
     // y+
     if ( this.isOponentPawn(pawn, pawn.x, pawn.y + 1)
@@ -155,6 +158,7 @@ export class HnefataflEngine {
         const capturePawn = this.board[pawn.x][pawn.y + 1].pawn;
         this.pawns[capturePawn.id] = null;
         this.board[pawn.x][pawn.y + 1].pawn = null;
+        captured = true;
     }
     // y-
     if ( this.isOponentPawn(pawn, pawn.x, pawn.y - 1)
@@ -162,7 +166,9 @@ export class HnefataflEngine {
         const capturePawn = this.board[pawn.x][pawn.y - 1].pawn;
         this.pawns[capturePawn.id] = null;
         this.board[pawn.x][pawn.y - 1].pawn = null;
+        captured = true;
     }
+    return captured;
   }
 
   private isOponentPawn(pawn: Pawn, x: number, y: number, king = false): boolean {
@@ -187,6 +193,42 @@ export class HnefataflEngine {
 
   applyKingCapture(pawn: Pawn) {
     let kingCaptured = false;
+    kingCaptured = this.simpleKingCapture(pawn);
+
+    // this is complicated
+    // with a group
+    // 0 0 1 1 0
+    // 0 1 3 2 1
+    // 0 0 1 1 0
+    if (kingCaptured) {
+      this.triggerVictory(ATTACKERS);
+    }
+  }
+
+  private simpleKingCapture(pawn: Pawn): boolean {
+    let captured = false;
+    if ( this.isOponentPawn(pawn, pawn.x + 1, pawn.y, true)
+        && this.isOponentKingCaptured(pawn.x + 1, pawn.y) ) {
+      captured = true;
+    }
+    // x-
+    if ( this.isOponentPawn(pawn, pawn.x - 1, pawn.y, true)
+        && this.isOponentKingCaptured(pawn.x - 2, pawn.y) ) {
+      captured = true;
+    }
+    // y+
+    if ( this.isOponentPawn(pawn, pawn.x, pawn.y + 1, true)
+        && this.isOponentKingCaptured(pawn.x, pawn.y + 2) ) {
+      captured = true;
+    }
+    // y-
+    if ( this.isOponentPawn(pawn, pawn.x, pawn.y - 1, true)
+        && this.isOponentKingCaptured(pawn.x, pawn.y - 2) ) {
+      captured = true;
+    }
+    return captured;
+  }
+  private isOponentKingCaptured(x: number, y: number): boolean {
     // capture king
     // 0 0 1 0 0
     // 0 1 3 1 0
@@ -203,15 +245,21 @@ export class HnefataflEngine {
     // 0 0 X
     // 0 1 3
     // 0 0 1
-
-    // this is complicated
-    // with a group
-    // 0 0 1 1 0
-    // 0 1 3 2 1
-    // 0 0 1 1 0
-    if (kingCaptured) {
-      this.triggerVictory(ATTACKERS);
+    if ( this.board[x][y].pawn.isKing
+      && this.boardCaseIsWallTowerOrAttaker(x + 1, y)
+      && this.boardCaseIsWallTowerOrAttaker(x - 1, y)
+      && this.boardCaseIsWallTowerOrAttaker(x, y + 1)
+      && this.boardCaseIsWallTowerOrAttaker(x, y - 1) ) {
+        return true;
     }
+    return false;
+  }
+
+  private boardCaseIsWallTowerOrAttaker(x: number, y: number) {
+    return this.board[x] === undefined // wall x
+    || this.board[x][y] === undefined // wall y
+    || this.board[x][y].isTower // tower
+    || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker);
   }
 
   triggerVictory(victory: string) {
