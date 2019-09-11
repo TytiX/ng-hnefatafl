@@ -449,12 +449,14 @@ class Case {
 /*!*********************************************!*\
   !*** ./src/app/hnefatafl/game/Constants.ts ***!
   \*********************************************/
-/*! exports provided: INITIAL_POSITION */
+/*! exports provided: INITIAL_POSITION, DEFENDER_PAWN_ID_START, ATTACKER_PAWN_ID_START */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INITIAL_POSITION", function() { return INITIAL_POSITION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFENDER_PAWN_ID_START", function() { return DEFENDER_PAWN_ID_START; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ATTACKER_PAWN_ID_START", function() { return ATTACKER_PAWN_ID_START; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 
 // 1 : attacker pawn
@@ -473,6 +475,8 @@ const INITIAL_POSITION = [
     [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
     [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]
 ];
+const DEFENDER_PAWN_ID_START = 0;
+const ATTACKER_PAWN_ID_START = 100;
 
 
 /***/ }),
@@ -508,36 +512,56 @@ class HnefataflEngine {
         this.player = ATTACKERS;
     }
     load(positions, turn = 0, isAttackerTurn = true) {
-        let lastId = 0;
+        let lastDefenderId = _Constants__WEBPACK_IMPORTED_MODULE_3__["DEFENDER_PAWN_ID_START"];
+        let lastAttackerId = _Constants__WEBPACK_IMPORTED_MODULE_3__["ATTACKER_PAWN_ID_START"];
         this.pawns.length = 0;
         for (const [x, line] of this.board.entries()) {
             for (const [y, caze] of line.entries()) {
-                if (positions[x][y] === 1) {
-                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, x, y, true);
+                if (positions[x][y] === 1) { // ATTACKER
+                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastAttackerId, x, y, true);
                     this.pawns.push(caze.pawn);
-                    lastId++;
+                    lastAttackerId++;
                 }
-                else if (positions[x][y] === 2) {
-                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, x, y, false);
+                else if (positions[x][y] === 2) { // DEFENDER
+                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastDefenderId, x, y, false);
                     this.pawns.push(caze.pawn);
-                    lastId++;
+                    lastDefenderId++;
                 }
-                else if (positions[x][y] === 3) {
-                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastId, x, y, false, true);
+                else if (positions[x][y] === 3) { // KING
+                    caze.pawn = new _Pawn__WEBPACK_IMPORTED_MODULE_1__["Pawn"](lastDefenderId, x, y, false, true);
                     this.pawns.push(caze.pawn);
-                    lastId++;
+                    lastDefenderId++;
                 }
             }
         }
         this.turn = turn;
         this.player = isAttackerTurn ? ATTACKERS : DEFENDERS;
+        console.log(this.pawns);
+    }
+    pawnById(pawnId) {
+        let find = null;
+        for (const pawn of this.pawns) {
+            if (pawn.id === Number(pawnId)) {
+                find = pawn;
+                return find;
+            }
+        }
+        return find;
+    }
+    setPawnById(pawnId, attrPawn) {
+        for (const [index, pawn] of this.pawns.entries()) {
+            if (pawn.id === Number(pawnId)) {
+                this.pawns[index] = attrPawn;
+                return;
+            }
+        }
     }
     /**
      * Output the possible cases for a move for the current pawn.
      * @param pawnId the pawn ID
      */
     posibleMoves(pawnId) {
-        const pawn = this.pawns[pawnId];
+        const pawn = this.pawnById(pawnId);
         const cases = new Array();
         console.log('movable pawn', pawn);
         if ((this.player === ATTACKERS && pawn.isDefender)
@@ -595,11 +619,11 @@ class HnefataflEngine {
         return cases;
     }
     toMoveVector(pawnId, caze) {
-        const pawn = this.pawns[pawnId];
+        const pawn = this.pawnById(pawnId);
         return new _Vector__WEBPACK_IMPORTED_MODULE_2__["Vector"](caze.x - pawn.x, caze.y - pawn.y);
     }
     move(pawnId, vector) {
-        const pawn = Object.assign({}, this.pawns[pawnId]);
+        const pawn = Object.assign({}, this.pawnById(pawnId));
         if (!pawn || !this.verifyTurn(pawn) || !this.moveIsPossible(pawn, vector)) {
             console.log('not allowed');
             return false;
@@ -608,7 +632,7 @@ class HnefataflEngine {
         pawn.x = pawn.x + vector.x;
         pawn.y = pawn.y + vector.y;
         this.board[pawn.x][pawn.y].pawn = pawn;
-        this.pawns[pawnId] = pawn;
+        this.setPawnById(pawnId, pawn);
         this.applyCaptures(pawn);
         this.checkDefenderVictory(pawn);
         this.changeTurn();
@@ -634,7 +658,7 @@ class HnefataflEngine {
         if (this.isOponentPawn(pawn, pawn.x + 1, pawn.y)
             && this.isOponentCaptured(pawn, pawn.x + 2, pawn.y)) {
             const capturePawn = this.board[pawn.x + 1][pawn.y].pawn;
-            this.pawns[capturePawn.id] = null;
+            this.setPawnById(capturePawn.id, null);
             this.board[pawn.x + 1][pawn.y].pawn = null;
             captured = true;
         }
@@ -642,7 +666,7 @@ class HnefataflEngine {
         if (this.isOponentPawn(pawn, pawn.x - 1, pawn.y)
             && this.isOponentCaptured(pawn, pawn.x - 2, pawn.y)) {
             const capturePawn = this.board[pawn.x - 1][pawn.y].pawn;
-            this.pawns[capturePawn.id] = null;
+            this.setPawnById(capturePawn.id, pawn);
             this.board[pawn.x - 1][pawn.y].pawn = null;
             captured = true;
         }
@@ -650,7 +674,7 @@ class HnefataflEngine {
         if (this.isOponentPawn(pawn, pawn.x, pawn.y + 1)
             && this.isOponentCaptured(pawn, pawn.x, pawn.y + 2)) {
             const capturePawn = this.board[pawn.x][pawn.y + 1].pawn;
-            this.pawns[capturePawn.id] = null;
+            this.setPawnById(capturePawn.id, pawn);
             this.board[pawn.x][pawn.y + 1].pawn = null;
             captured = true;
         }
@@ -658,7 +682,7 @@ class HnefataflEngine {
         if (this.isOponentPawn(pawn, pawn.x, pawn.y - 1)
             && this.isOponentCaptured(pawn, pawn.x, pawn.y - 2)) {
             const capturePawn = this.board[pawn.x][pawn.y - 1].pawn;
-            this.pawns[capturePawn.id] = null;
+            this.setPawnById(capturePawn.id, pawn);
             this.board[pawn.x][pawn.y - 1].pawn = null;
             captured = true;
         }
