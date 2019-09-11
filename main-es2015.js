@@ -546,8 +546,11 @@ class HnefataflEngine {
         }
         // find accesible cases on x+
         for (let x1 = pawn.x + 1; x1 < this.board.length; x1++) {
-            if (this.board[x1][pawn.y].pawn || (this.board[x1][pawn.y].isTower && pawn.isAttacker)) {
+            if (this.board[x1][pawn.y].pawn) {
                 break;
+            }
+            else if (this.board[x1][pawn.y].isTower && !pawn.isKing) {
+                // skip
             }
             else {
                 cases.push(this.board[x1][pawn.y]);
@@ -555,8 +558,11 @@ class HnefataflEngine {
         }
         // find accesible cases on x-
         for (let x2 = pawn.x - 1; x2 >= 0; x2--) {
-            if (this.board[x2][pawn.y].pawn || (this.board[x2][pawn.y].isTower && pawn.isAttacker)) {
+            if (this.board[x2][pawn.y].pawn) {
                 break;
+            }
+            else if (this.board[x2][pawn.y].isTower && !pawn.isKing) {
+                // skip
             }
             else {
                 cases.push(this.board[x2][pawn.y]);
@@ -564,8 +570,11 @@ class HnefataflEngine {
         }
         // find accesible cases on y+
         for (let y1 = pawn.y + 1; y1 < this.board.length; y1++) {
-            if (this.board[pawn.x][y1].pawn || (this.board[pawn.x][y1].isTower && pawn.isAttacker)) {
+            if (this.board[pawn.x][y1].pawn) {
                 break;
+            }
+            else if (this.board[pawn.x][y1].isTower && !pawn.isKing) {
+                // skip
             }
             else {
                 cases.push(this.board[pawn.x][y1]);
@@ -573,8 +582,11 @@ class HnefataflEngine {
         }
         // find accesible cases on y-
         for (let y2 = pawn.y - 1; y2 >= 0; y2--) {
-            if (this.board[pawn.x][y2].pawn || (this.board[pawn.x][y2].isTower && pawn.isAttacker)) {
+            if (this.board[pawn.x][y2].pawn) {
                 break;
+            }
+            else if (this.board[pawn.x][y2].isTower && !pawn.isKing) {
+                // skip
             }
             else {
                 cases.push(this.board[pawn.x][y2]);
