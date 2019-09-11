@@ -196,14 +196,14 @@ export class HnefataflEngine {
   }
 
   private isOponentCaptured(pawn: Pawn, x: number, y: number): boolean {
-    // if x+2 is a wall
+    // if x+2 is
     // a pawn
     // a tower
     // pawn on x+1 is taken
-    return this.board[x] === undefined // wall
-      || this.board[x][y] === undefined // wall
-      || this.board[x][y].isTower // tower
-      || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker === pawn.isAttacker); // is same pawn
+    return this.board[x]
+      && this.board[x][y]
+      && ( this.board[x][y].isTower // tower
+      || (this.board[x][y].pawn && this.board[x][y].pawn.isAttacker === pawn.isAttacker) ); // is same pawn
   }
 
   applyKingCapture(pawn: Pawn) {
