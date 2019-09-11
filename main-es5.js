@@ -56,14 +56,12 @@ var captured=false;// x+
 if(this.isOponentPawn(pawn,pawn.x+1,pawn.y)&&this.isOponentCaptured(pawn,pawn.x+2,pawn.y)){var capturePawn=this.board[pawn.x+1][pawn.y].pawn;this.pawns[capturePawn.id]=null;this.board[pawn.x+1][pawn.y].pawn=null;captured=true}// x-
 if(this.isOponentPawn(pawn,pawn.x-1,pawn.y)&&this.isOponentCaptured(pawn,pawn.x-2,pawn.y)){var _capturePawn=this.board[pawn.x-1][pawn.y].pawn;this.pawns[_capturePawn.id]=null;this.board[pawn.x-1][pawn.y].pawn=null;captured=true}// y+
 if(this.isOponentPawn(pawn,pawn.x,pawn.y+1)&&this.isOponentCaptured(pawn,pawn.x,pawn.y+2)){var _capturePawn2=this.board[pawn.x][pawn.y+1].pawn;this.pawns[_capturePawn2.id]=null;this.board[pawn.x][pawn.y+1].pawn=null;captured=true}// y-
-if(this.isOponentPawn(pawn,pawn.x,pawn.y-1)&&this.isOponentCaptured(pawn,pawn.x,pawn.y-2)){var _capturePawn3=this.board[pawn.x][pawn.y-1].pawn;this.pawns[_capturePawn3.id]=null;this.board[pawn.x][pawn.y-1].pawn=null;captured=true}return captured};_proto2.isOponentPawn=function isOponentPawn(pawn,x,y,king){if(king===void 0){king=false}return this.board[x]&&this.board[x][y]&&this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker!==pawn.isAttacker&&this.board[x][y].pawn.isKing===king};_proto2.isOponentCaptured=function isOponentCaptured(pawn,x,y){// if x+2 is a wall
+if(this.isOponentPawn(pawn,pawn.x,pawn.y-1)&&this.isOponentCaptured(pawn,pawn.x,pawn.y-2)){var _capturePawn3=this.board[pawn.x][pawn.y-1].pawn;this.pawns[_capturePawn3.id]=null;this.board[pawn.x][pawn.y-1].pawn=null;captured=true}return captured};_proto2.isOponentPawn=function isOponentPawn(pawn,x,y,king){if(king===void 0){king=false}return this.board[x]&&this.board[x][y]&&this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker!==pawn.isAttacker&&this.board[x][y].pawn.isKing===king};_proto2.isOponentCaptured=function isOponentCaptured(pawn,x,y){// if x+2 is
 // a pawn
 // a tower
 // pawn on x+1 is taken
-return this.board[x]===undefined// wall
-||this.board[x][y]===undefined// wall
-||this.board[x][y].isTower// tower
-||this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker===pawn.isAttacker;// is same pawn
+return this.board[x]&&this.board[x][y]&&(this.board[x][y].isTower// tower
+||this.board[x][y].pawn&&this.board[x][y].pawn.isAttacker===pawn.isAttacker);// is same pawn
 };_proto2.applyKingCapture=function applyKingCapture(pawn){if(this.simpleKingCapture(pawn)||this.complicatedKingCapture(pawn)){this.triggerVictory(ATTACKERS)}};_proto2.simpleKingCapture=function simpleKingCapture(pawn){var captured=false;if(this.isOponentPawn(pawn,pawn.x+1,pawn.y,true)&&this.isOponentKingCaptured(pawn.x+1,pawn.y)){captured=true}// x-
 if(this.isOponentPawn(pawn,pawn.x-1,pawn.y,true)&&this.isOponentKingCaptured(pawn.x-1,pawn.y)){captured=true}// y+
 if(this.isOponentPawn(pawn,pawn.x,pawn.y+1,true)&&this.isOponentKingCaptured(pawn.x,pawn.y+1)){captured=true}// y-
