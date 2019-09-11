@@ -14,3 +14,6 @@ export const INITIAL_POSITION = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0]];
+
+export const DEFENDER_PAWN_ID_START = 0;
+export const ATTACKER_PAWN_ID_START = 100;

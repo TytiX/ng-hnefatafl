@@ -1,6 +1,6 @@
 
 export class Pawn {
-  id: string;
+  id: number;
   x: number;
   y: number;
 
