@@ -51,7 +51,8 @@ jobs:
           command: yarn deploy
   
   heroku-deploy:
-    docker: circleci/node:latest
+    docker: 
+      - image: circleci/node:latest
     steps:
       - checkout
       - attach_workspace:
