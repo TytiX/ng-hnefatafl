@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "gh-pages -d dist/ng-hnefatafl --message \"[skip ci] Updates\""
+    "deploy": "gh-pages -d dist/ng-hnefatafl --message \"[skip ci] Updates\"",
+    "deploy-heroku": "gh-pages -branch heroku -d dist --message \"[skip ci] Updates\""
   },
   "private": true,
   "dependencies": {
